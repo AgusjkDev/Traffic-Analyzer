@@ -14,7 +14,7 @@
 HTTPClient httpClient;
 DynamicJsonDocument device(1024);
 
-void init_wifi(void) {
+void initWifi(void) {
   Serial.println("Establishing WiFi connection...");
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
@@ -23,41 +23,41 @@ void init_wifi(void) {
   Serial.println("WiFi connection established.");
 }
 
-int get_device_data(DynamicJsonDocument& device) {
+int getDeviceData(DynamicJsonDocument& device) {
   httpClient.begin(SUPABASE_URL + "/rest/v1/devices?select=*&id=eq." + DEVICE_ID);
   httpClient.addHeader("Authorization", "Bearer " + SUPABASE_TOKEN);
   httpClient.addHeader("apikey", SUPABASE_TOKEN);
   httpClient.addHeader("Accept", "application/vnd.pgrst.object+json");
 
-  int status_code = httpClient.GET();
-  String json_string = httpClient.getString();
+  int statusCode = httpClient.GET();
+  String jsonString = httpClient.getString();
   httpClient.end();
 
-  if (status_code != 200) return 1;
+  if (statusCode != 200) return 1;
 
-  DeserializationError error = deserializeJson(device, json_string);
+  DeserializationError error = deserializeJson(device, jsonString);
 
   return error ? 1 : 0;
 }
 
-int send_traffic_report(int recognitions) {
+int sendTrafficReport(int recognitions) {
   httpClient.begin(SUPABASE_URL + "/rest/v1/traffic");
   httpClient.addHeader("Authorization", "Bearer " + SUPABASE_TOKEN);
   httpClient.addHeader("apikey", SUPABASE_TOKEN);
   httpClient.addHeader("Content-Type", "application/json");
 
-  String json_string = "{\"device_id\":\"" + DEVICE_ID + "\",\"street_id\":\"" + device["street_id"].as<String>() + "\",\"recognitions\":" + recognitions + ",\"interval\":" + device["interval"].as<int>() + ",\"street_number\":" + device["street_number"].as<int>() + "}";
-  Serial.println(json_string);
+  String jsonString = "{\"device_id\":\"" + DEVICE_ID + "\",\"street_id\":\"" + device["street_id"].as<String>() + "\",\"recognitions\":" + recognitions + ",\"interval\":" + device["interval"].as<int>() + ",\"street_number\":" + device["street_number"].as<int>() + "}";
+  Serial.println(jsonString);
 
-  int status_code = httpClient.POST(json_string);
-  Serial.println(status_code);
+  int statusCode = httpClient.POST(jsonString);
+  Serial.println(statusCode);
   Serial.println(httpClient.getString());
   httpClient.end();
 
-  return status_code == 201 ? 0 : 1;
+  return statusCode == 201 ? 0 : 1;
 }
 
-int get_ultrasonic_distance(void) {
+int getUltrasonicDistance(void) {
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
   digitalWrite(TRIG_PIN, HIGH);
@@ -70,27 +70,27 @@ int get_ultrasonic_distance(void) {
   return distance > MAX_DISTANCE ? -1 : distance;
 }
 
-int get_mic_voltage(void) {
-  int mic_voltage = analogRead(MIC_PIN);
+int getMicVoltage(void) {
+  int micVoltage = analogRead(MIC_PIN);
 
-  return mic_voltage;
+  return micVoltage;
 }
 
 int recognition_loop() {
   int recognitions = 0;
 
-  unsigned long start_time = millis();
-  int wait_time = device["interval"].as<int>() * 60000;  // millis = minutes * 60000
-  while (millis() - start_time < wait_time) {
-    int distance = get_ultrasonic_distance();
+  unsigned long startTime = millis();
+  int waitTime = device["interval"].as<int>() * 60000;  // millis = minutes * 60000
+  while (millis() - startTime < waitTime) {
+    int distance = getUltrasonicDistance();
     Serial.printf("Distance: %d cm\n", distance);
 
     /* TODO:
     Investigar sobre subirle la ganancia al micrófono.
     Por ahora siempre devuelve el mismo valor entre 1300-1400.
 
-    int mic_voltage = get_mic_voltage();
-    Serial.printf("MIC Voltage: %d\n", mic_voltage);
+    int micVoltage = getMicVoltage();
+    Serial.printf("MIC Voltage: %d\n", micVoltage);
     */
 
     // TODO: Profundizar algoritmo de reconocimiento.
@@ -112,7 +112,7 @@ void setup() {
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
   pinMode(MIC_PIN, INPUT);
-  init_wifi();
+  initWifi();
 
   // TODO: Iniciar calibración de distancia y sonido ambiente.
 }
@@ -122,7 +122,7 @@ void loop() {
 
   while (1) {
     Serial.println("Getting device data...");
-    int error = get_device_data(device);
+    int error = getDeviceData(device);
     if (!error) break;
 
     Serial.println("There was an error trying to get the device data, trying again soon!");
@@ -134,7 +134,7 @@ void loop() {
 
   while (1) {
     Serial.println("Sending traffic report...");
-    int error = send_traffic_report(recognitions);
+    int error = sendTrafficReport(recognitions);
     if (!error) break;
 
     Serial.println("There was an error trying to send the traffic report, trying again soon!");
