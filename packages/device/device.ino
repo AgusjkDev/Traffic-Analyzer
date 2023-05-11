@@ -8,8 +8,8 @@
 #define ECHO_PIN 17
 #define MIC_PIN 36
 
-#define MAX_DISTANCE 500
-#define DEFAULT_INTERVAL 5
+#define MAX_DISTANCE 500    // cm
+#define DEFAULT_INTERVAL 5  // minutes
 
 HTTPClient httpClient;
 DynamicJsonDocument device(1024);
