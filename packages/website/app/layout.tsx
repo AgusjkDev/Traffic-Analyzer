@@ -2,7 +2,7 @@ import { Lexend } from "next/font/google";
 
 import { Header } from "components";
 
-import "./globals.css";
+import "styles/globals.css";
 
 export const metadata = {
     title: "Traffic Analyzer",
