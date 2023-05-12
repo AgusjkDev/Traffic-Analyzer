@@ -1,3 +1,7 @@
+import { Lexend } from "next/font/google";
+
+import { Header } from "components";
+
 import "./globals.css";
 
 export const metadata = {
@@ -6,6 +10,12 @@ export const metadata = {
         "Traffic Analyzer: soluciona la congestión del tráfico en zonas urbanas con nuestro dispositivo de monitoreo de tráfico.",
 };
 
+// Should delete all unused weights.
+const font = Lexend({
+    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+    subsets: ["latin"],
+});
+
 interface RootLayoutProps {
     children: React.ReactNode;
 }
@@ -13,7 +23,11 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="es">
-            <body>{children}</body>
+            <body className={font.className}>
+                <Header />
+
+                {children}
+            </body>
         </html>
     );
 }
