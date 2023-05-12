@@ -1,3 +1,6 @@
+"use client";
+import { SupabaseProvider } from "context";
+
 export default function Dashboard() {
-    return null;
+    return <SupabaseProvider>{null}</SupabaseProvider>;
 }
