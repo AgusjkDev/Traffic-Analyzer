@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 import SupabaseContext from "./SupabaseContext";
 import { supabase } from "lib";
@@ -10,6 +11,9 @@ interface SupabaseProviderProps {
 
 export default function SupabaseProvider({ children }: SupabaseProviderProps) {
     const [session, setSession] = useState<SupabaseState["session"] | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
+    const pathname = usePathname();
 
     const login: Login = async (email, password) => {
         console.log(`Login: ${email}:${password}`);
@@ -23,9 +27,9 @@ export default function SupabaseProvider({ children }: SupabaseProviderProps) {
         const { data, error } = await supabase.auth.getSession();
         const { session: storedSession } = data;
 
-        if (error || !storedSession) return;
+        if (!error && storedSession) setSession(storedSession);
 
-        setSession(storedSession);
+        setIsLoading(false);
     }, []);
 
     const handleAuthStateChange = useCallback(() => {
@@ -40,6 +44,14 @@ export default function SupabaseProvider({ children }: SupabaseProviderProps) {
         getSession();
         handleAuthStateChange();
     }, []);
+
+    useEffect(() => {
+        if (isLoading) return;
+
+        if (!session && pathname !== "/login") {
+            router.push("/login");
+        }
+    }, [isLoading]);
 
     return (
         <SupabaseContext.Provider value={{ session, login, signUp }}>
