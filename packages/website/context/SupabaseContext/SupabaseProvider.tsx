@@ -46,9 +46,7 @@ export default function SupabaseProvider({ children }: SupabaseProviderProps) {
     }, []);
 
     useEffect(() => {
-        if (isLoading) return;
-
-        if (!session && pathname !== "/login") {
+        if (!isLoading && !session && pathname !== "/login") {
             router.push("/login");
         }
     }, [isLoading]);
