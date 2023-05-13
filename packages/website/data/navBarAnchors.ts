@@ -6,14 +6,14 @@ interface NavBarAnchors {
 
 const navBarAnchors: NavBarAnchors[] = [
     {
+        href: "/",
+        title: "Ir al Inicio",
+        children: "Inicio",
+    },
+    {
         href: "/dashboard",
         title: "Ir al Dashboard",
         children: "Dashboard",
-    },
-    {
-        href: "/profile",
-        title: "Ir al Perfil",
-        children: "Perfil",
     },
     {
         href: "/pricing",
