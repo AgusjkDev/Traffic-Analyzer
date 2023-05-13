@@ -1,2 +1,3 @@
-export { default as headerAnchors } from "./headerAnchors";
-export type { HeaderAnchor } from "./headerAnchors";
+export { default as navBarAnchors } from "./navBarAnchors";
+export * as svgs from "./svgs";
+export type { SVG } from "./svgs";

@@ -1,6 +1,6 @@
 import { Lexend } from "next/font/google";
 
-import { Header } from "components";
+import { NavBar } from "components";
 
 import "styles/globals.css";
 
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="es">
             <body className={font.className}>
-                <Header />
+                <NavBar />
 
                 {children}
             </body>

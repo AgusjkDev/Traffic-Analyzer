@@ -1,10 +1,10 @@
-export interface HeaderAnchor {
+interface NavBarAnchors {
     href: string;
     title: string;
     children: React.ReactNode;
 }
 
-const headerAnchors: HeaderAnchor[] = [
+const navBarAnchors: NavBarAnchors[] = [
     {
         href: "/dashboard",
         title: "Ir al Dashboard",
@@ -27,4 +27,4 @@ const headerAnchors: HeaderAnchor[] = [
     },
 ];
 
-export default headerAnchors;
+export default navBarAnchors;
