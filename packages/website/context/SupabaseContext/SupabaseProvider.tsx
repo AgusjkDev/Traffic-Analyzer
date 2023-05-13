@@ -46,10 +46,16 @@ export default function SupabaseProvider({ children }: SupabaseProviderProps) {
     }, []);
 
     useEffect(() => {
-        if (!isLoading && !session && pathname !== "/login") {
+        if (isLoading) return;
+
+        if (session && pathname === "/login") {
+            return router.push("/");
+        }
+
+        if (!session && pathname !== "/login") {
             router.push("/login");
         }
-    }, [isLoading]);
+    }, [isLoading, pathname]);
 
     return (
         <SupabaseContext.Provider value={{ session, login, signUp }}>
