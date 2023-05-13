@@ -14,7 +14,7 @@ export default function NavBar() {
 
     return (
         <>
-            <header className="sticky flex-col md:flex-row md:justify-between md:py-6 md:px-12 lg:px-16 xl:px-24 top-0 p-6 gap-2 flex border-b-gray-100 border-b-[1px] items-center">
+            <header className="sticky bg-white flex-col md:flex-row md:justify-between md:py-6 md:px-12 lg:px-16 xl:px-24 top-0 p-6 gap-2 flex border-b-gray-100 border-b-[1px] items-center">
                 <Link href="/">
                     <h1 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-yellow-500 to-emerald-600">
                         Traffic Analyzer
