@@ -7,7 +7,7 @@ import { svgs } from "data";
 import NavBarAnchors from "./NavBarAnchors";
 
 export default function NavBar() {
-    const [showMenu, setShowMenu] = useState(true);
+    const [showMenu, setShowMenu] = useState(false);
 
     const toggleShowMenu = () => setShowMenu(prevState => !prevState);
     const hideMenu = () => setShowMenu(false);
