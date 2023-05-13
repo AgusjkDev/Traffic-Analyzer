@@ -14,7 +14,7 @@ export default function NavBarAnchors({ hideMenu }: NavBarAnchorsProps) {
                     key={navBarAnchor.href}
                     {...navBarAnchor}
                     onClick={hideMenu}
-                    className="text-lg text-center transition-colors duration-300 md:text-base hover:text-emerald-600"
+                    className="mx-auto text-lg text-center transition-colors duration-300 md:text-base hover:text-emerald-600"
                 />
             ))}
         </div>
