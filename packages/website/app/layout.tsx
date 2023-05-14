@@ -19,7 +19,7 @@ const font = Lexend({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="es">
-            <body className={font.className}>
+            <body className={`text-primary ${font.className}`}>
                 <NavBar />
 
                 {children}

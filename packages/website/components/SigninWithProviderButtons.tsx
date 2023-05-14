@@ -19,7 +19,7 @@ export default function SigninWithProviderButtons() {
                 <button
                     key={provider}
                     onClick={() => handleSignin(provider)}
-                    className="group bg-white hover:border-emerald-600 transition-colors duration-300 w-full border-black lg:max-w-xs max-w-[280px] rounded-sm border-[1px] grid grid-cols-4 py-2.5 lg:py-3 place-items-center"
+                    className="group bg-white hover:border-emerald-600 transition-colors duration-300 w-full border-primary lg:max-w-xs max-w-[280px] rounded-sm border-[1px] grid grid-cols-4 py-2.5 lg:py-3 place-items-center"
                 >
                     <Svg {...svg} width={24} height={24} />
 
