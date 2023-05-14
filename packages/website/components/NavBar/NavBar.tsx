@@ -3,8 +3,8 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { Svg } from "components";
-import { svgs } from "data";
 import NavBarAnchors from "./NavBarAnchors";
+import { svgs } from "data";
 
 export default function NavBar() {
     const [showMenu, setShowMenu] = useState(false);
