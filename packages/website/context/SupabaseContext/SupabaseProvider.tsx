@@ -1,47 +1,58 @@
 import { useState, useCallback, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-import SupabaseContext from "./SupabaseContext";
 import { supabase } from "lib";
-import type { SupabaseState, Login, SignUp } from "./types";
+import SupabaseContext from "./SupabaseContext";
+import type { SupabaseState, SigninWithProvider, SignOut } from "./types";
 
 interface SupabaseProviderProps {
     children: React.ReactNode;
 }
 
 export default function SupabaseProvider({ children }: SupabaseProviderProps) {
-    const [session, setSession] = useState<SupabaseState["session"] | null>(null);
+    const [session, setSession] = useState<SupabaseState["session"]>(null);
+    const [user, setUser] = useState<SupabaseState["user"]>(null);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const pathname = usePathname();
 
-    const login: Login = async (email, password) => {
-        console.log(`Login: ${email}:${password}`);
+    const signinWithProvider: SigninWithProvider = async provider => {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider,
+            options: {
+                redirectTo: `${location.origin}/dashboard`,
+            },
+        });
+
+        if (error) {
+            alert(error.message); // TODO: Create custom alert
+        }
     };
 
-    const signUp: SignUp = async (username, email, password) => {
-        console.log(`Sign Up: ${username}:${email}:${password}`);
+    const signOut: SignOut = async () => {
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+            alert(error.message); // TODO: Create custom alert
+        }
     };
-
-    const getSession = useCallback(async () => {
-        const { data, error } = await supabase.auth.getSession();
-        const { session: storedSession } = data;
-
-        if (!error && storedSession) setSession(storedSession);
-
-        setIsLoading(false);
-    }, []);
 
     const handleAuthStateChange = useCallback(() => {
-        supabase.auth.onAuthStateChange((_, changedSession) => {
-            if (!changedSession) {
-                setSession(changedSession);
+        supabase.auth.onAuthStateChange((authEvent, changedSession) => {
+            setSession(changedSession);
+            setUser(changedSession?.user ?? null);
+
+            if (authEvent === "INITIAL_SESSION") {
+                return setIsLoading(false);
+            }
+
+            if (authEvent === "SIGNED_OUT") {
+                router.push("/");
             }
         });
     }, []);
 
     useEffect(() => {
-        getSession();
         handleAuthStateChange();
     }, []);
 
@@ -58,7 +69,7 @@ export default function SupabaseProvider({ children }: SupabaseProviderProps) {
     }, [isLoading, pathname]);
 
     return (
-        <SupabaseContext.Provider value={{ session, login, signUp }}>
+        <SupabaseContext.Provider value={{ session, user, signinWithProvider, signOut }}>
             {children}
         </SupabaseContext.Provider>
     );

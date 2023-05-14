@@ -1,13 +1,14 @@
-import { Session } from "@supabase/supabase-js";
+import type { Session, User, Provider } from "@supabase/supabase-js";
 
 export interface SupabaseState {
     session: Session | null;
+    user: User | null;
 }
 
-export type Login = (email: string, password: string) => Promise<void>;
-export type SignUp = (username: string, email: string, password: string) => Promise<void>;
+export type SigninWithProvider = (provider: Provider) => Promise<void>;
+export type SignOut = () => Promise<void>;
 
 export interface SupabaseContext extends SupabaseState {
-    login: Login;
-    signUp: SignUp;
+    signinWithProvider: SigninWithProvider;
+    signOut: SignOut;
 }
