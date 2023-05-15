@@ -9,12 +9,12 @@ export default function Dashboard() {
     if (!session || !user) return null;
 
     return (
-        <main className="gap-6 my-auto flex-col px-2.5 flex justify-center items-center">
-            <h2 className="text-2xl text-center">¡Hola, {user.user_metadata.full_name}!</h2>
+        <main className="my-auto flex flex-col items-center justify-center gap-6 px-2.5">
+            <h2 className="text-center text-2xl">¡Hola, {user.user_metadata.full_name}!</h2>
 
             <button
                 onClick={signOut}
-                className="py-2.5 w-full max-w-[192px] border-[1px] rounded-sm border-black"
+                className="w-full max-w-[192px] rounded-sm border-[1px] border-black py-2.5"
             >
                 Cerrar sesión
             </button>

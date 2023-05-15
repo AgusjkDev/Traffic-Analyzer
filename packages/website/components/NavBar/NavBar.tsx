@@ -14,9 +14,9 @@ export default function NavBar() {
 
     return (
         <>
-            <header className="sticky bg-white flex-col md:flex-row md:justify-between md:py-6 md:px-12 lg:px-16 xl:px-24 top-0 p-6 gap-2 flex border-b-gray-100 border-b-[1px] items-center">
+            <header className="sticky top-0 flex flex-col items-center gap-2 border-b-[1px] border-b-gray-100 bg-white p-6 md:flex-row md:justify-between md:px-12 md:py-6 lg:px-16 xl:px-24">
                 <Link href="/">
-                    <h1 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-yellow-500 to-emerald-600">
+                    <h1 className="bg-gradient-to-r from-red-600 via-yellow-500 to-emerald-600 bg-clip-text text-center text-3xl font-bold text-transparent">
                         Traffic Analyzer
                     </h1>
                 </Link>
@@ -25,7 +25,7 @@ export default function NavBar() {
                     aria-label="Abrir Menu"
                     title="Abrir Menu"
                     onClick={toggleShowMenu}
-                    className="md:hidden group"
+                    className="group md:hidden"
                 >
                     <Svg {...svgs.menu} />
                 </button>
@@ -36,7 +36,7 @@ export default function NavBar() {
             </header>
 
             <div
-                className={`fixed md:hidden gap-y-12 justify-center bg-white transition-all flex flex-col items-center duration-500 inset-0 w-full min-h-screen ${
+                className={`fixed inset-0 flex min-h-screen w-full flex-col items-center justify-center gap-y-12 bg-white transition-all duration-500 md:hidden ${
                     showMenu ? "" : "translate-x-full opacity-0"
                 }`}
             >
@@ -44,7 +44,7 @@ export default function NavBar() {
                     aria-label="Cerrar Menu"
                     title="Cerrar Menu"
                     onClick={hideMenu}
-                    className="md:hidden group"
+                    className="group md:hidden"
                 >
                     <Svg {...svgs.x} />
                 </button>

@@ -12,7 +12,7 @@ export default function Svg({ d, width = 36, height = 36 }: SvgProps) {
             width={width}
             height={height}
             viewBox="0 0 24 24"
-            className="transition-colors fill-primary duration-300 group-hover:fill-emerald-600"
+            className="fill-primary transition-colors duration-300 group-hover:fill-emerald-600"
         >
             <path d={d} />
         </svg>
