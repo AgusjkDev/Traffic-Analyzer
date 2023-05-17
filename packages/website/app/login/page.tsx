@@ -4,7 +4,7 @@ import { SigninWithProviderButtons } from "components";
 
 export default function Login() {
     return (
-        <section className="mx-auto my-auto flex flex-col items-center justify-center gap-y-8 px-4 sm:px-0 md:w-[90%] md:flex-row xl:w-3/4 2xl:w-[70%]">
+        <section className="mx-auto my-auto flex min-h-[calc(100vh-129px)] flex-col items-center justify-center gap-y-8 px-4 sm:px-0 md:min-h-[calc(100vh-85px)] md:w-[90%] md:flex-row xl:w-3/4 2xl:w-[70%]">
             <div className="md:flex-1">
                 <Image
                     alt="Semáforo en luz roja"
@@ -16,7 +16,7 @@ export default function Login() {
                 />
             </div>
 
-            <main className="flex w-full flex-col items-center gap-y-8 md:flex-1 2xl:gap-y-12">
+            <main className="flex flex-col items-center w-full gap-y-8 md:flex-1 2xl:gap-y-12">
                 <header className="flex items-center">
                     <span className="text-center lg:text-lg">
                         Debes iniciar sesión para continuar
