@@ -19,11 +19,11 @@ export default function SigninWithProviderButtons() {
                 <button
                     key={provider}
                     onClick={() => handleSignin(provider)}
-                    className="group grid w-full max-w-[280px] grid-cols-4 place-items-center rounded-sm border-[1px] border-primary bg-white py-2.5 transition-colors duration-300 hover:border-emerald-600 lg:max-w-xs"
+                    className="group grid w-full max-w-[280px] grid-cols-4 place-items-center rounded-sm border-[1px] border-primary bg-white py-2.5 transition-colors duration-300 hover:border-secondary lg:max-w-xs"
                 >
                     <Svg {...svg} width={24} height={24} />
 
-                    <span className="col-span-3 w-full text-left text-sm transition-colors duration-300 group-hover:text-emerald-600 lg:text-base">
+                    <span className="col-span-3 w-full text-left text-sm transition-colors duration-300 group-hover:text-secondary lg:text-base">
                         Iniciar sesión con {displayName}
                     </span>
                 </button>
