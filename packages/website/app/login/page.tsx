@@ -16,7 +16,7 @@ export default function Login() {
                 />
             </div>
 
-            <main className="flex flex-col items-center w-full gap-y-8 md:flex-1 2xl:gap-y-12">
+            <main className="flex w-full flex-col items-center gap-y-8 md:flex-1 2xl:gap-y-12">
                 <header className="flex items-center">
                     <span className="text-center lg:text-lg">
                         Debes iniciar sesión para continuar

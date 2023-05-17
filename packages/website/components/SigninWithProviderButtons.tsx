@@ -14,7 +14,7 @@ export default function SigninWithProviderButtons() {
     };
 
     return (
-        <div className="flex flex-col items-center w-full gap-y-3 md:gap-y-5 2xl:gap-y-6">
+        <div className="flex w-full flex-col items-center gap-y-3 md:gap-y-5 2xl:gap-y-6">
             {signinWithProviderButtons.map(({ provider, displayName, svg }) => (
                 <button
                     key={provider}
@@ -23,7 +23,7 @@ export default function SigninWithProviderButtons() {
                 >
                     <Svg {...svg} width={24} height={24} />
 
-                    <span className="w-full col-span-3 text-sm text-left transition-colors duration-300 group-hover:text-emerald-600 lg:text-base">
+                    <span className="col-span-3 w-full text-left text-sm transition-colors duration-300 group-hover:text-emerald-600 lg:text-base">
                         Iniciar sesión con {displayName}
                     </span>
                 </button>
