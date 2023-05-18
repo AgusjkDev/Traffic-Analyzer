@@ -9,7 +9,7 @@ export default function Dashboard() {
     if (!session || !user) return null;
 
     return (
-        <main className="my-auto flex flex-col items-center justify-center gap-6 px-2.5">
+        <div className="my-auto flex flex-col items-center justify-center gap-6 bg-red-400 px-2.5">
             <h2 className="text-center text-2xl">¡Hola, {user.user_metadata.full_name}!</h2>
 
             <button
@@ -18,6 +18,6 @@ export default function Dashboard() {
             >
                 Cerrar sesión
             </button>
-        </main>
+        </div>
     );
 }
