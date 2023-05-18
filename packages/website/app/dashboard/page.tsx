@@ -4,9 +4,9 @@ import { useContext } from "react";
 import { SupabaseContext } from "context";
 
 export default function Dashboard() {
-    const { session, user, signOut } = useContext(SupabaseContext);
+    const { user, signOut } = useContext(SupabaseContext);
 
-    if (!session || !user) return null;
+    if (!user) return null;
 
     return (
         <div className="my-auto flex flex-col items-center justify-center gap-6 bg-red-400 px-2.5">
