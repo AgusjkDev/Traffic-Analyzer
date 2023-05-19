@@ -1,11 +1,11 @@
 "use client";
 import { SupabaseProvider } from "context";
-import { DashboardLayout } from "components";
+import { Layout } from "components/Dashboard";
 
-export default function DashboardLayoutWrapper({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     return (
         <SupabaseProvider>
-            <DashboardLayout>{children}</DashboardLayout>
+            <Layout>{children}</Layout>
         </SupabaseProvider>
     );
 }
