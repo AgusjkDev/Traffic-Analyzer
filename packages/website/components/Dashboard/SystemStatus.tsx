@@ -10,7 +10,7 @@ export default function SystemStatus() {
         : "Todos los sistemas de Traffic Analyzer están funcionando correctamente.";
 
     return (
-        <Callout className="md:text-base" title={title} color={color}>
+        <Callout className="max-w-prose md:max-w-prose-lg md:text-base" title={title} color={color}>
             {children}
         </Callout>
     );

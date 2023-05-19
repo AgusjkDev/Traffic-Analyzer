@@ -12,6 +12,9 @@ module.exports = {
                 },
                 secondary: colors.emerald[600],
             },
+            maxWidth: {
+                "prose-lg": "75ch",
+            },
         },
     },
     plugins: [],

@@ -7,7 +7,7 @@ export default function Introduction() {
     const secondAnchor = dashboardAnchors[2];
 
     return (
-        <p className="text-sm text-primary-light md:text-base">
+        <p className="max-w-prose text-sm text-primary-light md:max-w-prose-lg md:text-base">
             Éste es tu panel de control o <i>dashboard</i>, en él podrás realizar ciertas acciones
             como&nbsp;
             <Link href={firstAnchor.href} className="lowercase underline">
