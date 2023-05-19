@@ -1,12 +1,11 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 
-import { Svg } from "components";
+import { Logo, Svg } from "components";
 import NavBarAnchors from "./NavBarAnchors";
 import { svgs } from "data";
 
-export default function NavBar() {
+export default function Heading() {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleShowMenu = () => setShowMenu(prevState => !prevState);
@@ -15,11 +14,7 @@ export default function NavBar() {
     return (
         <>
             <header className="sticky top-0 flex flex-col items-center gap-2 border-b-[1px] border-b-gray-100 bg-white p-6 md:flex-row md:justify-between md:px-12 md:py-6 lg:px-16 xl:px-24">
-                <Link href="/">
-                    <h1 className="bg-gradient-to-r from-red-600 via-yellow-500 to-secondary bg-clip-text text-center text-3xl font-bold text-transparent">
-                        Traffic Analyzer
-                    </h1>
-                </Link>
+                <Logo />
 
                 <button
                     aria-label="Abrir Menu"

@@ -1,6 +1,6 @@
 import { Lexend } from "next/font/google";
 
-import { NavBar } from "components";
+import { Heading } from "components";
 
 import "styles/globals.css";
 
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="es">
             <body className={`text-primary ${font.className}`}>
-                <NavBar />
+                <Heading />
 
                 {children}
             </body>
