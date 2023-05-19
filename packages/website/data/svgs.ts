@@ -27,7 +27,7 @@ export const charts: SVG = {
 };
 
 export const download: SVG = {
-    d: "M19 9h-4V3H9v6H5l7 8zM4 19h16v2H4z",
+    d: "m12 16 4-5h-3V4h-2v7H8z M20 18H4v-7H2v7c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-7h-2v7z",
 };
 
 export const settings: SVG = {
