@@ -18,13 +18,13 @@ const dashboardAnchors: DashboardAnchor[] = [
     {
         href: "/dashboard/charts",
         label: "Gráficos",
-        title: "Visita los gráficos",
+        title: "Visitar los gráficos",
         svg: svgs.charts,
     },
     {
         href: "/dashboard/downloads",
         label: "Descargas",
-        title: "Descarga los datos",
+        title: "Descargar los datos",
         svg: svgs.download,
     },
     {
