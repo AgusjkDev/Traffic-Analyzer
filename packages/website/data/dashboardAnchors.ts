@@ -10,6 +10,12 @@ interface DashboardAnchor {
 
 const dashboardAnchors: DashboardAnchor[] = [
     {
+        href: "/dashboard",
+        label: "Dashboard",
+        title: "Ir al Dasboard",
+        svg: svgs.home,
+    },
+    {
         href: "/dashboard/charts",
         label: "Gráficos",
         title: "Visita los gráficos",
