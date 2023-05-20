@@ -1,23 +1,23 @@
-"use client";
-import { useContext } from "react";
+import Link from "next/link";
 
-import { SupabaseContext } from "context";
+import { dashboardAnchors } from "data";
 
 export default function WelcomeText() {
-    const { user } = useContext(SupabaseContext);
-
-    const username: string | undefined = user?.user_metadata.full_name;
+    const firstAnchor = dashboardAnchors[1];
+    const secondAnchor = dashboardAnchors[2];
 
     return (
-        <h2 className="text-lg text-primary md:text-2xl">
-            ¡Hola de nuevo
-            {username && (
-                <>
-                    &#44;&nbsp;
-                    <span className="text-secondary">{username}</span>
-                </>
-            )}
-            &#33;
-        </h2>
+        <>
+            Éste es tu panel de control o <i>dashboard</i>, en él podrás realizar ciertas acciones
+            como&nbsp;
+            <Link href={firstAnchor.href} className="lowercase underline">
+                {firstAnchor.title}
+            </Link>
+            &nbsp; o&nbsp;
+            <Link href={secondAnchor.href} className="lowercase underline">
+                {secondAnchor.title}
+            </Link>
+            &#46;
+        </>
     );
 }

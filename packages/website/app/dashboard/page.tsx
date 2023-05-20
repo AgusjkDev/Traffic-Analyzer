@@ -1,13 +1,9 @@
-import { WelcomeText, Introduction, SystemStatus } from "components/Dashboard";
+import { PageWrapper, WelcomeTitle, WelcomeText, SystemStatus } from "components/Dashboard";
 
 export default function Dashboard() {
     return (
-        <main className="flex flex-col gap-8">
-            <WelcomeText />
-
-            <Introduction />
-
+        <PageWrapper title={<WelcomeTitle />} introduction={<WelcomeText />}>
             <SystemStatus />
-        </main>
+        </PageWrapper>
     );
 }
