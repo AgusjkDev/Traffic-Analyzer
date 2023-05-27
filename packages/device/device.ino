@@ -99,7 +99,7 @@ bool wifiSave(String ssid, String password) {
   return dumped;
 }
 
-void apiRequest(String endpoint, String *response, String method = "GET", String payload = "{}") {
+void apiRequest(String endpoint, String *response, String method = "GET", String payload = "{}". String accept = "application/json") {
   if (method != "GET" && method != "POST") {
     Serial.printf("HTTP method '%s' was not implemented.\n", method);
     return;
@@ -108,6 +108,7 @@ void apiRequest(String endpoint, String *response, String method = "GET", String
   httpClient.begin(SUPABASE_URL + endpoint);
   httpClient.addHeader("Authorization", "Bearer " + SUPABASE_TOKEN);
   httpClient.addHeader("apikey", SUPABASE_TOKEN);
+  httpClient.addHeader("Accept", accept);
 
   int statusCode;
   if (method == "GET") {
