@@ -9,17 +9,20 @@
 #define TRIG_PIN 16
 #define ECHO_PIN 17
 #define MIC_PIN 36
+#define MAX_DISTANCE 500  // cm
 
 #define WIFI_TIMEOUT 5000  // ms
 
 #define AP_SSID "Traffic Analyzer"
 #define AP_PASSWORD "12345678"
 
-#define RESTART_DELAY 5000  // ms
+#define RESTART_DELAY 5000            // ms
+#define FAILED_REQUEST_TIMEOUT 60000  // ms
 
 String deviceId;
 HTTPClient httpClient;
 AsyncWebServer server(80);
+DynamicJsonDocument device(1024);
 
 void fsInit() {
   /* Inicializar LittleFS normalmente. Si falla,
@@ -164,6 +167,9 @@ void getDeviceId() {
     return;
   }
 
+  // Solución temporal a que la respuesta esté contenida en comillas dobles
+  deviceId.replace("\"", "");
+
   Serial.printf("Device id: '%s'.\n", deviceId.c_str());
 
   bool saved = saveDeviceId();
@@ -230,6 +236,97 @@ void handleServerWifiRoute(AsyncWebServerRequest *request) {
   request->send(200, "text/plain", "WiFi successfully connected and saved.");
 }
 
+bool getDeviceData() {
+  Serial.println("Getting device data...");
+
+  String jsonString;
+  apiRequest("/rest/v1/devices?select=*&id=eq." + deviceId, &jsonString, "GET", "{}", "application/vnd.pgrst.object+json");
+  if (jsonString.isEmpty()) {
+    Serial.println("There was an error trying get the device data.");
+    return false;
+  }
+
+  DeserializationError error = deserializeJson(device, jsonString);
+  if (!error) return true;
+
+  Serial.println("There was an error trying to deserialize the device data.");
+  return false;
+}
+
+bool isDeviceConfigured(DynamicJsonDocument &device) {
+  String user_id = device["user_id"].as<String>();
+  String street_id = device["street_id"].as<String>();
+  int street_number = device["street_number"].as<int>();
+  int interval = device["interval"].as<int>();
+
+  bool isConfigured = (!user_id.isEmpty() && !street_id.isEmpty() && street_number >= 0 && interval > 0);
+  if (!isConfigured) Serial.println("The device is not configured so far.");
+
+  return isConfigured;
+}
+
+int getUltrasonicDistance(void) {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+
+  long duration = pulseIn(ECHO_PIN, HIGH);
+  int distance = duration * 0.034 / 2;
+
+  return distance > MAX_DISTANCE ? -1 : distance;
+}
+
+// int getMicVoltage(void) {
+//   int micVoltage = analogRead(MIC_PIN);
+
+//   return micVoltage;
+// }
+
+int recognitionLoop() {
+  int recognitions = 0;
+
+  unsigned long startTime = millis();
+  int waitTime = device["interval"].as<int>() * 60000;  // millis = minutes * 60000
+  while (millis() - startTime < waitTime) {
+    int distance = getUltrasonicDistance();
+
+    /* TODO:
+    Investigar sobre subirle la ganancia al micrófono
+    Por ahora siempre devuelve el mismo valor entre 1300-1400
+
+    int micVoltage = getMicVoltage();
+    Serial.printf("MIC Voltage: %d\n", micVoltage);
+    */
+
+    // TODO: Profundizar algoritmo de reconocimiento
+    const int CALIBRATED_MAX_RANGE = 200;
+    if (distance > 50 && distance <= CALIBRATED_MAX_RANGE) {
+      Serial.println("Traffic recognized!");
+      recognitions++;
+    }
+
+    delay(1000);
+  }
+
+  return recognitions;
+}
+
+void sendTrafficReport(int recognitions) {
+  Serial.println("Sending traffic report...");
+
+  String jsonString = "{\"device_id\":\"" + deviceId + "\",\"street_id\":\"" + device["street_id"].as<String>() + "\",\"recognitions\":" + recognitions + ",\"interval\":" + device["interval"].as<int>() + ",\"street_number\":" + device["street_number"].as<int>() + "}";
+  String response;
+  apiRequest("/rest/v1/traffic", &response, "POST", jsonString);
+  if (response.isEmpty()) {
+    Serial.println("Traffic report successfully sent.");
+    return;
+  }
+
+  Serial.println("There was an error trying to send the traffic report.");
+}
+
 void setup() {
   Serial.begin(115200);
 
@@ -269,12 +366,21 @@ void loop() {
     return;
   }
 
-  // TODO: Obtener información del dispositivo cada X segundos hasta que esté configurado por el usuario
+  // Obtener información del dispositivo hasta que esté configurado
+  while (true) {
+    bool success = getDeviceData();
+    if (!success || !isDeviceConfigured(device)) {
+      Serial.println("Trying again soon...");
+      delay(FAILED_REQUEST_TIMEOUT);
+      continue;
+    }
+    break;
+  }
 
-  // TODO: Bucle de reconocimiento
+  // Bucle de reconocimiento
+  int recognitions = recognitionLoop();
+  Serial.printf("Recognized traffic: %d\n", recognitions);
 
-  // TODO: Enviar reporte del tráfico
-
-  Serial.println("Waiting for next procedure...");
-  delay(10000);
+  // Enviar reporte del tráfico
+  sendTrafficReport(recognitions);
 }
