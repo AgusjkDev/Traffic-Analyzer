@@ -99,7 +99,7 @@ bool wifiSave(String ssid, String password) {
   return dumped;
 }
 
-void apiRequest(String endpoint, String *response, String method = "GET", String payload = "{}". String accept = "application/json") {
+void apiRequest(String endpoint, String *response, String method = "GET", String payload = "{}", String accept = "application/json") {
   if (method != "GET" && method != "POST") {
     Serial.printf("HTTP method '%s' was not implemented.\n", method);
     return;
@@ -270,11 +270,11 @@ void loop() {
   }
 
   // TODO: Obtener información del dispositivo cada X segundos hasta que esté configurado por el usuario
-  
+
   // TODO: Bucle de reconocimiento
 
   // TODO: Enviar reporte del tráfico
-  
+
   Serial.println("Waiting for next procedure...");
   delay(10000);
 }
