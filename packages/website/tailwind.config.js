@@ -10,7 +10,10 @@ module.exports = {
                     light: colors.neutral[500],
                     DEFAULT: colors.neutral[700],
                 },
-                secondary: colors.emerald[600],
+                secondary: {
+                    DEFAULT: colors.emerald[600],
+                    dark: colors.emerald[700],
+                },
             },
             maxWidth: {
                 "prose-lg": "75ch",
