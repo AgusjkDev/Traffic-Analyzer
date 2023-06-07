@@ -1,12 +1,16 @@
 import { Divider } from "@tremor/react";
+import type { PropsWithChildren } from "react";
 
 interface PageWrapperProps {
     title: React.ReactNode;
     introduction: React.ReactNode;
-    children: React.ReactNode;
 }
 
-export default function PageWrapper({ title, introduction, children }: PageWrapperProps) {
+export default function PageWrapper({
+    title,
+    introduction,
+    children,
+}: PropsWithChildren<PageWrapperProps>) {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-3 md:gap-4">

@@ -1,11 +1,16 @@
 "use client";
+import type { PropsWithChildren } from "react";
+
 interface OutlinedButtonProps {
     onClick: () => void;
     className?: string;
-    children: React.ReactNode;
 }
 
-export default function OutlinedButton({ onClick, className, children }: OutlinedButtonProps) {
+export default function OutlinedButton({
+    onClick,
+    className,
+    children,
+}: PropsWithChildren<OutlinedButtonProps>) {
     return (
         <button
             onClick={onClick}

@@ -1,10 +1,11 @@
 "use client";
 import { useContext } from "react";
+import type { PropsWithChildren } from "react";
 
 import { SupabaseContext } from "context";
 import Menu from "./Menu";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({ children }: PropsWithChildren) {
     const { session } = useContext(SupabaseContext);
 
     if (!session) return null;

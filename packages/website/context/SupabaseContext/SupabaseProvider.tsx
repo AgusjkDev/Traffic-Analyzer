@@ -1,15 +1,12 @@
 import { useState, useCallback, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import type { PropsWithChildren } from "react";
 
 import { supabase } from "lib";
 import SupabaseContext from "./SupabaseContext";
 import type { SupabaseState, SigninWithProvider, SignOut } from "./types";
 
-interface SupabaseProviderProps {
-    children: React.ReactNode;
-}
-
-export default function SupabaseProvider({ children }: SupabaseProviderProps) {
+export default function SupabaseProvider({ children }: PropsWithChildren) {
     const [session, setSession] = useState<SupabaseState["session"]>(null);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();

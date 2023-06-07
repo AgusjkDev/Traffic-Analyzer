@@ -1,4 +1,5 @@
 import { Lexend } from "next/font/google";
+import type { PropsWithChildren } from "react";
 
 import { Heading } from "components";
 
@@ -16,7 +17,7 @@ const font = Lexend({
     subsets: ["latin"],
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: PropsWithChildren) {
     return (
         <html lang="es">
             <body className={`text-primary ${font.className}`}>
