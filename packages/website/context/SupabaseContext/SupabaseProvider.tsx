@@ -11,7 +11,6 @@ interface SupabaseProviderProps {
 
 export default function SupabaseProvider({ children }: SupabaseProviderProps) {
     const [session, setSession] = useState<SupabaseState["session"]>(null);
-    const [user, setUser] = useState<SupabaseState["user"]>(null);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const pathname = usePathname();
@@ -40,7 +39,6 @@ export default function SupabaseProvider({ children }: SupabaseProviderProps) {
     const handleAuthStateChange = useCallback(() => {
         supabase.auth.onAuthStateChange((authEvent, changedSession) => {
             setSession(changedSession);
-            setUser(changedSession?.user ?? null);
 
             if (authEvent === "INITIAL_SESSION") {
                 return setIsLoading(false);
@@ -69,7 +67,7 @@ export default function SupabaseProvider({ children }: SupabaseProviderProps) {
     }, [isLoading, pathname]);
 
     return (
-        <SupabaseContext.Provider value={{ session, user, signinWithProvider, signOut }}>
+        <SupabaseContext.Provider value={{ session, signinWithProvider, signOut }}>
             {children}
         </SupabaseContext.Provider>
     );

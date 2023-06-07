@@ -5,9 +5,9 @@ import { SupabaseContext } from "context";
 import Menu from "./Menu";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-    const { session, user } = useContext(SupabaseContext);
+    const { session } = useContext(SupabaseContext);
 
-    if (!session || !user) return null;
+    if (!session) return null;
 
     return (
         <div className="flex min-h-[calc(100vh-129px)] flex-col md:min-h-[calc(100vh-85px)] md:flex-row">

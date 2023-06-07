@@ -4,9 +4,9 @@ import { useContext } from "react";
 import { SupabaseContext } from "context";
 
 export default function WelcomeTitle() {
-    const { user } = useContext(SupabaseContext);
+    const { session } = useContext(SupabaseContext);
 
-    const username: string | undefined = user?.user_metadata.full_name;
+    const username: string | undefined = session?.user.user_metadata.full_name;
 
     return (
         <>

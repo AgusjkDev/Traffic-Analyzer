@@ -1,8 +1,7 @@
-import type { Session, User, Provider } from "@supabase/supabase-js";
+import type { Session, Provider } from "@supabase/supabase-js";
 
 export interface SupabaseState {
     session: Session | null;
-    user: User | null;
 }
 
 export type SigninWithProvider = (provider: Provider) => Promise<void>;
