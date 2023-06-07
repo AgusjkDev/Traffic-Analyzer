@@ -33,7 +33,7 @@ export default function Heading() {
             </header>
 
             <div
-                className={`fixed inset-0 z-[1] flex min-h-screen w-full flex-col items-center justify-center gap-y-12 bg-white transition-all duration-500 md:hidden ${
+                className={`fixed inset-0 z-[2] flex min-h-screen w-full flex-col items-center justify-center gap-y-12 bg-white transition-all duration-500 md:hidden ${
                     showMenu ? "" : "translate-x-full opacity-0"
                 }`}
             >
