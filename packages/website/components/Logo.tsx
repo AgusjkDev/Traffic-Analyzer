@@ -1,11 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Logo() {
     return (
-        <Link href="/">
-            <h1 className="bg-gradient-to-r from-red-600 via-yellow-500 to-secondary bg-clip-text text-center text-3xl font-bold text-transparent">
-                Traffic Analyzer
-            </h1>
+        <Link aria-label="Ir al Inicio" title="Ir al Inicio" href="/">
+            <Image alt="Logo de Traffic Analyzer" src="/imgs/logo.png" width={470} height={140} />
         </Link>
     );
 }

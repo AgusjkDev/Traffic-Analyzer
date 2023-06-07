@@ -13,8 +13,10 @@ export default function Heading() {
 
     return (
         <>
-            <header className="sticky top-0 flex flex-col items-center gap-2 border-b-[1px] border-b-gray-100 bg-white p-6 md:flex-row md:justify-between md:px-12 md:py-6 lg:px-16 xl:px-24">
-                <Logo />
+            <header className="sticky top-0 flex flex-col items-center gap-y-2 border-b-[1px] border-b-gray-100 bg-white pb-2.5 pt-5 md:flex-row md:justify-between md:px-12 md:py-4 lg:px-16 xl:px-24 2xl:px-32">
+                <div className="max-w-[200px]">
+                    <Logo />
+                </div>
 
                 <button
                     aria-label="Abrir Menu"
