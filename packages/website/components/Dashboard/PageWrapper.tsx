@@ -20,7 +20,7 @@ export default function PageWrapper({
                 </p>
             </div>
 
-            <Divider />
+            <Divider className="mx-0 max-w-prose md:max-w-prose-lg" />
 
             {children}
         </div>
