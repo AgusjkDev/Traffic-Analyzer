@@ -12,7 +12,7 @@ export default function PageWrapper({
     children,
 }: PropsWithChildren<PageWrapperProps>) {
     return (
-        <div className="flex flex-col gap-4">
+        <main className="flex flex-col gap-4">
             <div className="flex flex-col gap-3 md:gap-4">
                 <h2 className="text-lg text-primary md:text-2xl">{title}</h2>
                 <p className="max-w-prose text-sm text-primary-light md:max-w-prose-lg md:text-base">
@@ -23,6 +23,6 @@ export default function PageWrapper({
             <Divider className="mx-0 max-w-prose md:max-w-prose-lg" />
 
             {children}
-        </div>
+        </main>
     );
 }
