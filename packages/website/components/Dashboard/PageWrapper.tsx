@@ -14,8 +14,8 @@ export default function PageWrapper({
     return (
         <main className="flex flex-col gap-4">
             <div className="flex flex-col gap-3 md:gap-4">
-                <h2 className="text-lg text-primary md:text-2xl">{title}</h2>
-                <p className="max-w-prose text-sm text-primary-light md:max-w-prose-lg md:text-base">
+                <h2 className="font-semibold text-xl md:text-2xl">{title}</h2>
+                <p className="max-w-prose text-sm text-primary-light md:max-w-prose-lg">
                     {introduction}
                 </p>
             </div>
