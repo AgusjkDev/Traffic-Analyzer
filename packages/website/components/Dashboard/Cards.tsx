@@ -24,7 +24,7 @@ export default function Cards() {
                     <Link
                         title={anchor.title}
                         href={anchor.href}
-                        className="mt-2 text-center text-sm text-secondary transition-colors duration-300 hover:text-secondary-dark"
+                        className="mx-auto mt-auto text-center text-sm text-secondary transition-colors duration-300 hover:text-secondary-dark"
                     >
                         {anchor.children}
                     </Link>
