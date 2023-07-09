@@ -13,12 +13,13 @@ export default function PageWrapper({
 }: PropsWithChildren<PageWrapperProps>) {
     return (
         <main className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3 md:gap-4">
-                <h2 className="font-semibold text-xl md:text-2xl">{title}</h2>
+            <header className="flex flex-col gap-3 md:gap-4">
+                <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>
+
                 <p className="max-w-prose text-sm text-primary-light md:max-w-prose-lg">
                     {introduction}
                 </p>
-            </div>
+            </header>
 
             <Divider className="mx-0 max-w-prose md:max-w-prose-lg" />
 
