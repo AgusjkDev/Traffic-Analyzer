@@ -1,3 +1,4 @@
+import { twMerge } from "tailwind-merge";
 import type { SVG } from "data";
 
 interface SvgProps extends SVG {
@@ -13,9 +14,10 @@ export default function Svg({ d, className, width = 36, height = 36 }: SvgProps)
             width={width}
             height={height}
             viewBox="0 0 24 24"
-            className={`fill-primary transition-colors duration-300 group-hover:fill-secondary${
-                className ? ` ${className}` : ""
-            }`}
+            className={twMerge(
+                "fill-primary transition-colors duration-300 group-hover:fill-secondary",
+                className
+            )}
         >
             <path d={d} />
         </svg>

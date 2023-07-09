@@ -1,4 +1,5 @@
 "use client";
+import { twMerge } from "tailwind-merge";
 import type { PropsWithChildren } from "react";
 
 interface OutlinedButtonProps {
@@ -14,9 +15,10 @@ export default function OutlinedButton({
     return (
         <button
             onClick={onClick}
-            className={`rounded-sm border-[1px] border-primary bg-white py-2.5 text-sm transition-colors duration-300 hover:border-secondary hover:text-secondary lg:text-base${
-                className ? ` ${className}` : ""
-            }`}
+            className={twMerge(
+                "rounded-sm border-[1px] border-primary bg-white py-2.5 text-sm transition-colors duration-300 hover:border-secondary hover:text-secondary lg:text-base",
+                className
+            )}
         >
             {children}
         </button>

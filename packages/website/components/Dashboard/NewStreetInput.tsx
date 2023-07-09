@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 import { Svg } from "components";
 import { svgs } from "data";
@@ -30,7 +31,10 @@ export default function NewStreetInput({ createStreet }: NewStreetInputProps) {
                 className="w-full rounded-md border-[1px] border-gray-300 bg-white p-2.5 pr-8 text-sm placeholder:text-primary-light focus:border-gray-400 focus:outline-none"
             />
             <button
-                className={`absolute right-0 h-full pr-1.5 ${newStreetName.trim() ? "" : "hidden"}`}
+                className={twMerge(
+                    "absolute right-0 h-full pr-1.5",
+                    !newStreetName.trim() && "hidden"
+                )}
             >
                 <Svg {...svgs.check} width={22} height={22} className="fill-primary-light" />
             </button>

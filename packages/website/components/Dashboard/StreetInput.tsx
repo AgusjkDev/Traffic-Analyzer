@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef } from "react";
+import { twMerge } from "tailwind-merge";
 
 import { Svg } from "components";
 import { svgs } from "data";
@@ -60,9 +61,10 @@ export default function StreetInput({ street, updateStreet, removeStreet }: Stre
             />
 
             <div
-                className={`absolute right-0 top-0 flex h-full gap-1 pr-1.5 transition-opacity ${
-                    isDisabled ? "opacity-0" : ""
-                }`}
+                className={twMerge(
+                    "absolute right-0 top-0 flex h-full gap-1 pr-1.5 transition-opacity",
+                    isDisabled && "opacity-0"
+                )}
             >
                 <button type="button" onClick={handleUpdate}>
                     <Svg {...svgs.edit} width={22} height={22} className="fill-primary-light" />
