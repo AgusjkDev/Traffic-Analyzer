@@ -20,9 +20,9 @@ export default function DashboardMenu() {
                     >
                         <Svg
                             {...svg}
-                            {...(pathname === href && { className: "fill-secondary" })}
                             width={24}
                             height={24}
+                            {...(pathname === href && { className: "fill-secondary" })}
                         />
                     </Link>
                 );
