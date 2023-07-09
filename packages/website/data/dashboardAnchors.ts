@@ -16,6 +16,12 @@ const dashboardAnchors: DashboardAnchor[] = [
         svg: svgs.home,
     },
     {
+        href: "/dashboard/streets",
+        label: "Calles",
+        title: "Ir a las calles",
+        svg: svgs.streets,
+    },
+    {
         href: "/dashboard/charts",
         label: "Gráficos",
         title: "Visitar los gráficos",
