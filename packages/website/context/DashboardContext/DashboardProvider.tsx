@@ -8,7 +8,7 @@ import { Types, type CreateStreet, type RemoveStreet, type UpdateStreet } from "
 import type { Street } from "types/schemas";
 
 export default function DashboardProvider({ children }: PropsWithChildren) {
-    const { getStreets, insertStreets, updateStreetName, deleteStreet } =
+    const { session, getStreets, insertStreets, updateStreetName, deleteStreet } =
         useContext(SupabaseContext);
     const [state, dispatch] = useReducer(DashboardReducer, initialState);
 
@@ -47,14 +47,14 @@ export default function DashboardProvider({ children }: PropsWithChildren) {
     };
 
     useEffect(() => {
-        if (state.streets) return;
+        if (!session) return;
 
         getStreets().then(streets => {
             if (!streets) return;
 
             setStreets(streets);
         });
-    }, [getStreets]);
+    }, [session]);
 
     return (
         <DashboardContext.Provider value={{ ...state, createStreet, updateStreet, removeStreet }}>

@@ -98,14 +98,14 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
     };
 
     const handleAuthStateChange = useCallback(() => {
-        supabase.auth.onAuthStateChange((authEvent, changedSession) => {
-            setSession(changedSession);
-
+        supabase.auth.onAuthStateChange((authEvent, session) => {
             if (authEvent === "INITIAL_SESSION") {
+                setSession(session);
                 return setIsLoading(false);
             }
 
             if (authEvent === "SIGNED_OUT") {
+                setSession(null);
                 router.push("/");
             }
         });
