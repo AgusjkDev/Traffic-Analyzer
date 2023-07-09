@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { Svg } from "components";
 import { svgs } from "data";
-import type { CreateStreet } from "context/DashboardContext/types";
+import type { CreateStreet } from "context/DashboardContext";
 
 interface NewStreetInputProps {
     createStreet: CreateStreet;

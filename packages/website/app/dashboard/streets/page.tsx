@@ -2,8 +2,7 @@
 import { useContext } from "react";
 
 import { DashboardContext } from "context";
-import { PageWrapper } from "components/Dashboard";
-import { NewStreetInput, StreetInput } from "components/Dashboard";
+import { PageWrapper, NewStreetInput, StreetInput } from "components/Dashboard";
 
 export default function Streets() {
     const { streets, createStreet, updateStreet, removeStreet } = useContext(DashboardContext);

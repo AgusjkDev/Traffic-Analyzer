@@ -1,5 +1,4 @@
-import { Types } from "./types";
-import type { DashboardState, DashboardAction } from "./types";
+import { Types, type DashboardState, type DashboardAction } from "./types";
 
 export default function DashboardReducer(state: DashboardState, action: DashboardAction) {
     const { type, payload } = action;

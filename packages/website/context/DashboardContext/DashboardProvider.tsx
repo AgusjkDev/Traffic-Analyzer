@@ -5,8 +5,7 @@ import { SupabaseContext } from "context";
 import DashboardContext from "./DashboardContext";
 import DashboardReducer from "./DashboardReducer";
 import initialState from "./initialState";
-import { Types } from "./types";
-import type { CreateStreet, RemoveStreet, UpdateStreet } from "./types";
+import { Types, type CreateStreet, type RemoveStreet, type UpdateStreet } from "./types";
 import type { Street } from "types/schemas";
 
 export default function DashboardProvider({ children }: PropsWithChildren) {

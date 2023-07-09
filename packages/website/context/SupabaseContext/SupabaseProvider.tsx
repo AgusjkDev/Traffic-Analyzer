@@ -1,6 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, type PropsWithChildren } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import type { PropsWithChildren } from "react";
 
 import { supabase } from "lib";
 import SupabaseContext from "./SupabaseContext";

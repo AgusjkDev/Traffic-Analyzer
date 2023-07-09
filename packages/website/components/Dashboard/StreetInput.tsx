@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { Svg } from "components";
 import { svgs } from "data";
 import type { Street } from "types/schemas";
-import type { UpdateStreet, RemoveStreet } from "context/DashboardContext/types";
+import type { UpdateStreet, RemoveStreet } from "context/DashboardContext";
 
 interface StreetInputProps {
     street: Street;

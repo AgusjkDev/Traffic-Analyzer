@@ -1,6 +1,5 @@
 "use client";
-import { useContext } from "react";
-import type { PropsWithChildren } from "react";
+import { useContext, type PropsWithChildren } from "react";
 
 import { SupabaseContext } from "context";
 import Menu from "./Menu";
