@@ -1,5 +1,4 @@
-import { useContext, useReducer, useEffect } from "react";
-import type { PropsWithChildren } from "react";
+import { useContext, useReducer, useEffect, type PropsWithChildren } from "react";
 
 import { SupabaseContext } from "context";
 import DashboardContext from "./DashboardContext";
