@@ -22,6 +22,12 @@ const dashboardAnchors: DashboardAnchor[] = [
         svg: svgs.streets,
     },
     {
+        href: "/dashboard/devices",
+        label: "Dispositivos",
+        title: "Ir a los dispositivos",
+        svg: svgs.devices,
+    },
+    {
         href: "/dashboard/charts",
         label: "Gráficos",
         title: "Visitar los gráficos",
