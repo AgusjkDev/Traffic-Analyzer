@@ -49,8 +49,6 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
             .eq("user_id", session.user.id)
             .order("created_at", { ascending: true });
 
-        console.log({ data, error });
-
         if (!data && error) {
             alert(error.message); // TODO: Create custom alert
             return null;

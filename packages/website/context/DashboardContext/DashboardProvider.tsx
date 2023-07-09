@@ -51,7 +51,6 @@ export default function DashboardProvider({ children }: PropsWithChildren) {
         if (state.streets) return;
 
         getStreets().then(streets => {
-            console.log({ getStreetsResult: streets });
             if (!streets) return;
 
             setStreets(streets);
