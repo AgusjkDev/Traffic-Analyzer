@@ -4,3 +4,5 @@ export { default as WelcomeTitle } from "./WelcomeTitle";
 export { default as WelcomeText } from "./WelcomeText";
 export { default as SystemStatus } from "./SystemStatus";
 export { default as Cards } from "./Cards";
+export { default as NewStreetInput } from "./NewStreetInput";
+export { default as StreetInput } from "./StreetInput";

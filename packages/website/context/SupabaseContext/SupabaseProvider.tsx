@@ -4,7 +4,15 @@ import type { PropsWithChildren } from "react";
 
 import { supabase } from "lib";
 import SupabaseContext from "./SupabaseContext";
-import type { SupabaseState, SigninWithProvider, SignOut } from "./types";
+import type {
+    SupabaseState,
+    SigninWithProvider,
+    SignOut,
+    GetStreets,
+    InsertStreets,
+    DeleteStreet,
+    UpdateStreetName,
+} from "./types";
 
 export default function SupabaseProvider({ children }: PropsWithChildren) {
     const [session, setSession] = useState<SupabaseState["session"]>(null);
@@ -29,6 +37,64 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
         const { error } = await supabase.auth.signOut();
 
         if (error) {
+            alert(error.message); // TODO: Create custom alert
+        }
+    };
+
+    const getStreets: GetStreets = useCallback(async () => {
+        if (!session) return null;
+
+        const { data, error } = await supabase
+            .from("streets")
+            .select("*")
+            .eq("user_id", session.user.id);
+
+        console.log({ data, error });
+
+        if (!data && error) {
+            alert(error.message); // TODO: Create custom alert
+            return null;
+        }
+
+        return data;
+    }, [session]);
+
+    const insertStreets: InsertStreets = async streetName => {
+        if (!session) return null;
+
+        const { data, error } = await supabase
+            .from("streets")
+            .insert({ name: streetName, user_id: session.user.id })
+            .select("*")
+            .single();
+
+        if (!data && error) {
+            alert(error.message); // TODO: Create custom alert
+            return null;
+        }
+
+        return data;
+    };
+
+    const updateStreetName: UpdateStreetName = async (streetId, streetName) => {
+        if (!session) return;
+
+        const { data, error } = await supabase
+            .from("streets")
+            .update({ name: streetName })
+            .eq("id", streetId);
+
+        if (!data && error) {
+            alert(error.message); // TODO: Create custom alert
+        }
+    };
+
+    const deleteStreet: DeleteStreet = async streetId => {
+        if (!session) return;
+
+        const { data, error } = await supabase.from("streets").delete().eq("id", streetId);
+
+        if (!data && error) {
             alert(error.message); // TODO: Create custom alert
         }
     };
@@ -64,7 +130,17 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
     }, [isLoading, pathname]);
 
     return (
-        <SupabaseContext.Provider value={{ session, signinWithProvider, signOut }}>
+        <SupabaseContext.Provider
+            value={{
+                session,
+                signinWithProvider,
+                signOut,
+                getStreets,
+                insertStreets,
+                updateStreetName,
+                deleteStreet,
+            }}
+        >
             {children}
         </SupabaseContext.Provider>
     );
