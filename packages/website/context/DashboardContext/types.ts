@@ -1,7 +1,7 @@
-import type { Streets } from "types/tables";
+import type { Street } from "types/schemas";
 
 export interface DashboardState {
-    streets: Streets | null;
+    streets: Street[] | null;
 }
 
 export type CreateStreet = (streetName: string) => Promise<void>;
@@ -20,5 +20,5 @@ export enum Types {
 
 export type DashboardAction = {
     type: Types.SET_STREETS;
-    payload: Streets;
+    payload: Street[];
 };

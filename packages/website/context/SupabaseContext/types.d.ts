@@ -1,5 +1,5 @@
 import type { Session, Provider } from "@supabase/supabase-js";
-import type { Streets } from "types/tables";
+import type { Street } from "types/schemas";
 
 export interface SupabaseState {
     session: Session | null;
@@ -7,8 +7,8 @@ export interface SupabaseState {
 
 export type SigninWithProvider = (provider: Provider) => Promise<void>;
 export type SignOut = () => Promise<void>;
-export type GetStreets = () => Promise<Streets | null>;
-export type InsertStreets = (streetName: string) => Promise<Streets[number] | null>;
+export type GetStreets = () => Promise<Street[] | null>;
+export type InsertStreets = (streetName: string) => Promise<Street | null>;
 export type UpdateStreetName = (streetId: string, streetName: string) => Promise<void>;
 export type DeleteStreet = (streetId: string) => Promise<void>;
 

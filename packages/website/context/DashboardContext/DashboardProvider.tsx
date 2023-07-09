@@ -7,14 +7,14 @@ import DashboardReducer from "./DashboardReducer";
 import initialState from "./initialState";
 import { Types } from "./types";
 import type { CreateStreet, RemoveStreet, UpdateStreet } from "./types";
-import type { Streets } from "types/tables";
+import type { Street } from "types/schemas";
 
 export default function DashboardProvider({ children }: PropsWithChildren) {
     const { getStreets, insertStreets, updateStreetName, deleteStreet } =
         useContext(SupabaseContext);
     const [state, dispatch] = useReducer(DashboardReducer, initialState);
 
-    const setStreets = (streets: Streets) => {
+    const setStreets = (streets: Street[]) => {
         dispatch({
             type: Types.SET_STREETS,
             payload: streets,

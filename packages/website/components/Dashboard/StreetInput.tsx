@@ -3,11 +3,11 @@ import { useState, useRef } from "react";
 
 import { Svg } from "components";
 import { svgs } from "data";
-import type { Streets } from "types/tables";
+import type { Street } from "types/schemas";
 import type { UpdateStreet, RemoveStreet } from "context/DashboardContext/types";
 
 interface StreetInputProps {
-    street: Streets[number];
+    street: Street;
     updateStreet: UpdateStreet;
     removeStreet: RemoveStreet;
 }
