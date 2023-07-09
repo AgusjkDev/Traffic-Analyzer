@@ -1,4 +1,4 @@
-export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export interface Database {
     public: {
@@ -38,7 +38,6 @@ export interface Database {
                 Row: {
                     created_at: string;
                     id: string;
-                    interval: number | null;
                     street_id: string | null;
                     street_number: number | null;
                     updated_at: string;
@@ -47,7 +46,6 @@ export interface Database {
                 Insert: {
                     created_at?: string;
                     id?: string;
-                    interval?: number | null;
                     street_id?: string | null;
                     street_number?: number | null;
                     updated_at?: string;
@@ -56,7 +54,6 @@ export interface Database {
                 Update: {
                     created_at?: string;
                     id?: string;
-                    interval?: number | null;
                     street_id?: string | null;
                     street_number?: number | null;
                     updated_at?: string;
@@ -110,7 +107,6 @@ export interface Database {
                     created_at: string;
                     device_id: string;
                     id: string;
-                    interval: number;
                     recognitions: number;
                     street_id: string;
                     street_number: number;
@@ -119,7 +115,6 @@ export interface Database {
                     created_at?: string;
                     device_id: string;
                     id?: string;
-                    interval: number;
                     recognitions: number;
                     street_id: string;
                     street_number: number;
@@ -128,7 +123,6 @@ export interface Database {
                     created_at?: string;
                     device_id?: string;
                     id?: string;
-                    interval?: number;
                     recognitions?: number;
                     street_id?: string;
                     street_number?: number;
