@@ -46,7 +46,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
         const { data, error } = await supabase
             .from("streets")
             .select("*")
-            .eq("user_id", session.user.id);
+            .eq("user_id", session.user.id)
+            .order("created_at", { ascending: true });
 
         console.log({ data, error });
 
