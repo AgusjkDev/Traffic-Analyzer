@@ -8,7 +8,7 @@ export interface SupabaseState {
 type SupabaseResponse<T, K = undefined> =
     | {
           success: true;
-          data?: K extends undefined ? undefined : T;
+          data: K extends undefined ? undefined : T;
       }
     | {
           success: false;

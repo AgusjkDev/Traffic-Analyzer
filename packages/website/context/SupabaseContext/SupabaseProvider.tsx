@@ -30,7 +30,7 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
             },
         });
 
-        if (!error) return { success: true };
+        if (!error) return { success: true, data: undefined };
 
         return { success: false, error };
     };
