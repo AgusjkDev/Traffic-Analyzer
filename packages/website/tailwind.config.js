@@ -18,6 +18,19 @@ module.exports = {
             maxWidth: {
                 "prose-lg": "75ch",
             },
+            keyframes: {
+                timer: {
+                    "0%": {
+                        "clip-path": "inset(0 0 0 0)",
+                    },
+                    "100%": {
+                        "clip-path": "inset(0 100% 0 0)",
+                    },
+                },
+            },
+            animation: {
+                timer: "timer 5s linear forwards",
+            },
         },
     },
     plugins: [],
