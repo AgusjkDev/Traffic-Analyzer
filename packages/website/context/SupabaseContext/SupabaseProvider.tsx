@@ -11,6 +11,8 @@ import type {
     InsertStreets,
     DeleteStreet,
     UpdateStreetName,
+    GetDevices,
+    UpdateDevice,
 } from "./types";
 
 export default function SupabaseProvider({ children }: PropsWithChildren) {
@@ -97,6 +99,41 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
         }
     };
 
+    const getDevices: GetDevices = useCallback(async () => {
+        if (!session) return null;
+
+        const { data, error } = await supabase
+            .from("devices")
+            .select("*")
+            .eq("user_id", session.user.id)
+            .order("created_at", { ascending: true });
+
+        if (!data && error) {
+            alert(error.message); // TODO: Create custom alert
+            return null;
+        }
+
+        return data;
+    }, [session]);
+
+    const updateDevice: UpdateDevice = async (deviceId, update) => {
+        if (!session) return null;
+
+        const { data, error } = await supabase
+            .from("devices")
+            .update(update)
+            .eq("id", deviceId)
+            .select("*")
+            .single();
+
+        if (!data && error) {
+            alert(error.message); // TODO: Create custom alert
+            return null;
+        }
+
+        return data;
+    };
+
     const handleAuthStateChange = useCallback(() => {
         supabase.auth.onAuthStateChange((authEvent, session) => {
             if (authEvent === "INITIAL_SESSION") {
@@ -137,6 +174,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
                 insertStreets,
                 updateStreetName,
                 deleteStreet,
+                getDevices,
+                updateDevice,
             }}
         >
             {children}

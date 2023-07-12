@@ -6,3 +6,10 @@ export { default as dashboardAnchors } from "./dashboardAnchors";
 export { default as dashboardCards } from "./dashboardCards";
 export * as env from "./env";
 export { default as devicesActionTabs } from "./devicesActionTabs";
+export {
+    default as devicesActivateForm,
+    type FormValues,
+    type FormField,
+} from "./devicesActivateForm";
+export * as regex from "./regex";
+export { default as diacriticChars } from "./diacriticChars";

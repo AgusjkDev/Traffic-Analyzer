@@ -9,6 +9,13 @@ export default function DashboardReducer(state: DashboardState, action: Dashboar
                 ...state,
                 streets: payload,
             };
+
+        case Types.SET_DEVICES:
+            return {
+                ...state,
+                devices: payload,
+            };
+
         default:
             return state;
     }
