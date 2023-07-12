@@ -3,8 +3,7 @@ import Link from "next/link";
 import { dashboardAnchors } from "data";
 
 export default function WelcomeText() {
-    const firstAnchor = dashboardAnchors[1];
-    const secondAnchor = dashboardAnchors[2];
+    const [, firstAnchor, secondAnchor] = dashboardAnchors;
 
     return (
         <>
