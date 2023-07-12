@@ -1,4 +1,3 @@
-"use client";
 import type { FieldInputProps } from "formik";
 
 import { useSearchSelect, useSearch } from "hooks";

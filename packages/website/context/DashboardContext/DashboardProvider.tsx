@@ -1,3 +1,4 @@
+"use client";
 import { useContext, useReducer, useEffect, type PropsWithChildren } from "react";
 
 import { SupabaseContext } from "context";

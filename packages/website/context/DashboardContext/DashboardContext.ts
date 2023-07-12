@@ -1,3 +1,4 @@
+"use client";
 import { createContext } from "react";
 
 import type { DashboardContext as IDashboardContext } from "./types";
