@@ -1,16 +1,12 @@
-"use client";
-import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Logo, Svg } from "components";
 import NavBarAnchors from "./NavBarAnchors";
+import { useMenu } from "hooks";
 import { svgs } from "data";
 
 export default function Heading() {
-    const [showMenu, setShowMenu] = useState(false);
-
-    const toggleShowMenu = () => setShowMenu(prevState => !prevState);
-    const hideMenu = () => setShowMenu(false);
+    const { showMenu, toggleShowMenu, hideMenu } = useMenu();
 
     return (
         <>
