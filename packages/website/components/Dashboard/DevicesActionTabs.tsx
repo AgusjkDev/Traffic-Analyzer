@@ -1,32 +1,16 @@
 "use client";
-import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 
+import { useTabs } from "hooks";
 import { devicesActionTabs } from "data";
 
 export default function DevicesActionTabs() {
-    const [tabWidth, setTabWidth] = useState(0);
-    const tabRef = useRef<HTMLAnchorElement>(null);
+    const { tabRef, tabWidth } = useTabs();
     const pathname = usePathname();
 
-    const handleTabWidth = useCallback(() => {
-        if (!tabRef.current) return;
-
-        setTabWidth(tabRef.current.clientWidth);
-    }, [tabRef.current, setTabWidth]);
-
     const tabIndex = devicesActionTabs.findIndex(({ href }) => href === pathname);
-
-    useEffect(() => {
-        if (!tabWidth) handleTabWidth();
-
-        // When the window resizes, we need to update the tab width.
-        window.addEventListener("resize", handleTabWidth);
-
-        return () => window.removeEventListener("resize", handleTabWidth);
-    }, []);
 
     return (
         <div className={"relative flex w-full flex-col"}>
