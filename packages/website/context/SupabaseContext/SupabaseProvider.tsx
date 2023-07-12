@@ -30,9 +30,9 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
             },
         });
 
-        if (error) {
-            alert(error.message); // TODO: Create custom alert
-        }
+        if (!error) return { success: true };
+
+        return { success: false, error };
     };
 
     const signOut: SignOut = async () => {

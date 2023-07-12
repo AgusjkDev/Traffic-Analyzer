@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { AlertsProvider } from "context";
 import { SigninWithProviderButtons } from "components";
 
 export default function Login() {
@@ -23,7 +24,9 @@ export default function Login() {
                     </span>
                 </header>
 
-                <SigninWithProviderButtons />
+                <AlertsProvider>
+                    <SigninWithProviderButtons />
+                </AlertsProvider>
             </main>
         </section>
     );

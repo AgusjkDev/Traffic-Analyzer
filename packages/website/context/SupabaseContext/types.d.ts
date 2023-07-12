@@ -1,11 +1,22 @@
-import type { Session, Provider } from "@supabase/supabase-js";
+import type { Session, Provider, AuthError } from "@supabase/supabase-js";
 import type { Street, Device } from "types/schemas";
 
 export interface SupabaseState {
     session: Session | null;
 }
 
-export type SigninWithProvider = (provider: Provider) => Promise<void>;
+type SupabaseResponse<T, K = undefined> =
+    | {
+          success: true;
+          data?: K extends undefined ? undefined : T;
+      }
+    | {
+          success: false;
+          error: K extends undefined ? T : K;
+      };
+
+export type SigninWithProvider = (provider: Provider) => Promise<SupabaseResponse<AuthError>>;
+
 export type SignOut = () => Promise<void>;
 export type GetStreets = () => Promise<Street[] | null>;
 export type InsertStreets = (streetName: string) => Promise<Street | null>;
