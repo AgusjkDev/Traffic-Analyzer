@@ -1,9 +1,7 @@
 "use client";
-import { useState, useRef } from "react";
-import { useFormikContext, type FieldInputProps } from "formik";
+import type { FieldInputProps } from "formik";
 
-import { useSearch } from "hooks";
-import type { FormValues } from "data";
+import { useSearchSelect, useSearch } from "hooks";
 
 interface FormikSearchSelectFieldProps extends FieldInputProps<string> {
     focusId: string;
@@ -13,28 +11,16 @@ interface FormikSearchSelectFieldProps extends FieldInputProps<string> {
 const PROPS_TO_REPLACE = ["focusId", "options"];
 
 export default function FormikSearchSelectField(props: FormikSearchSelectFieldProps) {
-    const [isFocused, setIsFocused] = useState(false);
-    const inputRef = useRef<HTMLInputElement>(null);
-    const formikContext = useFormikContext<FormValues>();
+    const {
+        isFocused,
+        inputRef,
+        handleSelectFocus,
+        handleInputClick,
+        handleInputFocus,
+        handleInputBlur,
+        handleOptionClick,
+    } = useSearchSelect(props);
     const matchings = useSearch(props.options, props.value);
-
-    const handleSelectFocus = () => {
-        inputRef.current?.focus();
-        setIsFocused(true);
-    };
-
-    const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        setIsFocused(false);
-
-        if (props.onBlur) props.onBlur(e);
-    };
-
-    const handleOptionClick = (option: string) => {
-        formikContext.setValues({
-            ...formikContext.values,
-            streetName: option,
-        });
-    };
 
     const elementProps = Object.entries(props).reduce<Partial<FieldInputProps<string>>>(
         (acc, [key, value]) =>
@@ -49,9 +35,9 @@ export default function FormikSearchSelectField(props: FormikSearchSelectFieldPr
             <input
                 {...elementProps}
                 ref={inputRef}
+                onClick={handleInputClick}
+                onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
-                onClick={() => setIsFocused(true)}
-                onFocus={() => setIsFocused(true)}
                 type="text"
                 className="w-full rounded-md border-[1px] border-gray-300 bg-white p-2.5 text-sm transition-colors duration-300 placeholder:text-primary-light focus:border-gray-400 focus:outline-none"
             />
