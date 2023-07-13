@@ -63,7 +63,7 @@ export default function StreetInput({ street, updateStreetName, removeStreet }: 
 
             <div
                 className={twMerge(
-                    "absolute right-0 top-0 flex h-full gap-1 pr-1.5 transition-opacity",
+                    "absolute right-0 top-0 flex h-full gap-x-1 pr-1.5 transition-opacity",
                     isDisabled && "opacity-0"
                 )}
             >

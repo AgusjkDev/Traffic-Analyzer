@@ -12,7 +12,7 @@ export default function DevicesLayoutHeader() {
     return pathname === "/dashboard/devices" ? (
         <HeadingText>Selecciona una función para continuar</HeadingText>
     ) : (
-        <Link title="Volver" href="/dashboard/devices" className="group flex gap-1">
+        <Link title="Volver" href="/dashboard/devices" className="group flex gap-x-1">
             <Svg {...svgs.arrowLeft} width={20} height={20} className="fill-primary-light" />
 
             <HeadingText className="transition-colors duration-300 group-hover:text-secondary">

@@ -12,7 +12,7 @@ export default function Streets() {
             title="Calles"
             introduction="Observa, crea, edita y elimina las calles que utilizan tus dispositivos."
         >
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-y-4">
                 <HeadingText>
                     {streets && !streets.length
                         ? "No hay calles disponibles, intenta creando una nueva"

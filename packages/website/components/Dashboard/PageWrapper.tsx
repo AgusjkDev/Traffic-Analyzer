@@ -12,8 +12,8 @@ export default function PageWrapper({
     children,
 }: PropsWithChildren<PageWrapperProps>) {
     return (
-        <main className="flex flex-col gap-4">
-            <header className="flex flex-col gap-3 md:gap-4">
+        <main className="flex flex-col gap-y-4">
+            <header className="flex flex-col gap-y-3 md:gap-y-4">
                 <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>
 
                 <p className="max-w-prose text-sm text-primary-light md:max-w-prose-lg">
