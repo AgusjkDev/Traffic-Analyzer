@@ -1,79 +1,115 @@
-"use client";
-import { useState, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Svg } from "components";
+import { useStreetInput } from "hooks";
 import { svgs } from "data";
+import { reduceSpaces } from "helpers";
 import type { Street } from "types/schemas";
-import type { UpdateStreetName, RemoveStreet } from "context/DashboardContext";
 
 interface StreetInputProps {
-    street: Street;
-    updateStreetName: UpdateStreetName;
-    removeStreet: RemoveStreet;
+    street?: Street;
 }
 
-export default function StreetInput({ street, updateStreetName, removeStreet }: StreetInputProps) {
-    const [newStreetName, setNewStreetName] = useState(street.name);
-    const [isDisabled, setIsDisabled] = useState(true);
-    const inputRef = useRef<HTMLInputElement>(null);
+export default function StreetInput({ street }: StreetInputProps) {
+    const {
+        streetName,
+        isDisabled,
+        inputRef,
+        handleStreetName,
+        handleBlur,
+        handleCreate,
+        handleUpdate,
+        handleDelete,
+    } = useStreetInput({ street });
 
-    const handleUpdate = async () => {
-        if (isDisabled) {
-            setIsDisabled(false);
+    const isNew = !Boolean(street);
 
-            return setTimeout(() => inputRef.current?.focus(), 1);
-        }
-
-        const trimmedStreetName = newStreetName.trim();
-        if (street.name === trimmedStreetName) return setIsDisabled(true);
-        if (!trimmedStreetName) return; // TODO: string normalization and cleaning
-
-        const success = await updateStreetName(street.id, trimmedStreetName);
-        if (!success) setNewStreetName(street.name);
-
-        setIsDisabled(true);
-    };
-
-    const handleDelete = () => {
-        // TODO: Create custom confirm popup
-        if (!confirm("¿Realmente deseas eliminar esta calle?")) return;
-
-        removeStreet(street.id);
-    };
+    const thereIsStreetName = Boolean(reduceSpaces(streetName));
 
     return (
         <form
             onSubmit={e => {
                 e.preventDefault();
-                handleUpdate();
+
+                return isNew ? handleCreate() : handleUpdate();
             }}
-            className="relative h-full [&>div]:hover:opacity-100"
+            className={twMerge("relative", !isNew && "group/container")}
         >
             <input
-                required
                 ref={inputRef}
-                disabled={isDisabled}
-                placeholder={newStreetName}
-                value={newStreetName}
-                onChange={e => setNewStreetName(e.target.value)}
+                disabled={!isNew && isDisabled}
+                placeholder={street?.name ?? "Nueva calle"}
+                value={streetName}
+                onChange={e => handleStreetName(e.target.value)}
+                onBlur={handleBlur}
                 type="text"
-                className="w-full rounded-md border-[1px] border-gray-200 bg-white p-2.5 text-sm font-light placeholder:text-primary-light focus:border-gray-300 focus:outline-none disabled:text-primary-light"
+                className={twMerge(
+                    "w-full rounded-md border-[1px] border-gray-200 bg-white p-2.5 text-sm transition-colors placeholder:text-primary-light focus:border-gray-300 focus:outline-none",
+                    !isNew && "font-light disabled:text-primary-light",
+                    !isNew && isDisabled && "group-hover/container:pr-14",
+                    ((isNew && thereIsStreetName) || (!isNew && !isDisabled)) && "pr-8"
+                )}
             />
 
             <div
                 className={twMerge(
-                    "absolute right-0 top-0 flex h-full gap-x-1 pr-1.5 transition-opacity",
-                    isDisabled && "opacity-0"
+                    "absolute right-0 top-0 mr-1.5 flex h-full items-center gap-x-0.5",
+                    !isNew && isDisabled && "opacity-0 group-hover/container:opacity-100"
                 )}
             >
-                <button type="button" onClick={handleUpdate}>
-                    <Svg {...svgs.edit} width={22} height={22} className="fill-primary-light" />
-                </button>
+                {isNew ? (
+                    <button
+                        type="button"
+                        className={twMerge("group", !thereIsStreetName && "hidden")}
+                        onMouseDown={e => {
+                            e.preventDefault();
+                            handleCreate();
+                        }}
+                    >
+                        <Svg
+                            {...svgs.check}
+                            width={22}
+                            height={22}
+                            className="fill-primary-light group-hover:fill-primary"
+                        />
+                    </button>
+                ) : (
+                    <>
+                        <button
+                            type="button"
+                            onMouseDown={e => {
+                                e.preventDefault();
+                                handleUpdate();
+                            }}
+                            className="group"
+                        >
+                            <Svg
+                                {...svgs.edit}
+                                width={22}
+                                height={22}
+                                className="fill-primary-light group-hover:fill-primary"
+                            />
+                        </button>
 
-                <button type="button" onClick={handleDelete}>
-                    <Svg {...svgs.trash} width={22} height={22} className="fill-primary-light" />
-                </button>
+                        {isDisabled && (
+                            <button
+                                type="button"
+                                onMouseDown={e => {
+                                    e.preventDefault();
+                                    handleDelete();
+                                }}
+                                className="group"
+                            >
+                                <Svg
+                                    {...svgs.trash}
+                                    width={22}
+                                    height={22}
+                                    className="fill-primary-light group-hover:fill-primary"
+                                />
+                            </button>
+                        )}
+                    </>
+                )}
             </div>
         </form>
     );
