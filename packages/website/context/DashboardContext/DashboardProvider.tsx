@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useReducer, useEffect, type PropsWithChildren } from "react";
+import { useContext, useReducer, useCallback, useEffect, type PropsWithChildren } from "react";
 
 import { SupabaseContext, AlertsContext } from "context";
 import DashboardContext from "./DashboardContext";
@@ -120,30 +120,35 @@ export default function DashboardProvider({ children }: PropsWithChildren) {
         return response.success;
     };
 
+    const getInitialValues = useCallback(async () => {
+        const [streetsResponse, devicesResponse] = await Promise.allSettled([
+            selectStreets(),
+            selectDevices(),
+        ]);
+
+        if (streetsResponse.status === "rejected" || !streetsResponse.value.success) {
+            addAlert({
+                success: false,
+                message: "¡Ha ocurrido un error al obtener las calles!",
+            });
+        } else {
+            setStreets(streetsResponse.value.data);
+        }
+
+        if (devicesResponse.status === "rejected" || !devicesResponse.value.success) {
+            return addAlert({
+                success: false,
+                message: "¡Ha ocurrido un error al obtener los dispositivos!",
+            });
+        }
+
+        setDevices(devicesResponse.value.data);
+    }, [session]);
+
     useEffect(() => {
         if (!session) return;
 
-        Promise.allSettled([selectStreets(), selectDevices()]).then(
-            ([streetsResponse, devicesResponse]) => {
-                if (streetsResponse.status === "rejected" || !streetsResponse.value.success) {
-                    addAlert({
-                        success: false,
-                        message: "¡Ha ocurrido un error al obtener las calles!",
-                    });
-                } else {
-                    setStreets(streetsResponse.value.data);
-                }
-
-                if (devicesResponse.status === "rejected" || !devicesResponse.value.success) {
-                    return addAlert({
-                        success: false,
-                        message: "¡Ha ocurrido un error al obtener los dispositivos!",
-                    });
-                }
-
-                setDevices(devicesResponse.value.data);
-            }
-        );
+        getInitialValues();
     }, [session]);
 
     return (
