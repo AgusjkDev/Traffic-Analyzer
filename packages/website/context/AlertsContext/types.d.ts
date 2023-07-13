@@ -1,12 +1,10 @@
-interface Alert {
+export interface Alert {
     id: string;
     success: boolean;
     message: string;
 }
 
-export interface AlertsState {
-    alerts: Alert[];
-}
+export interface AlertsState {}
 
 type AddAlert = (alert: Omit<Alert, "id">) => void;
 

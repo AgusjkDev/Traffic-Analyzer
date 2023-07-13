@@ -22,7 +22,7 @@ export default function Alert({ success, children, hideAlert }: AlertProps) {
         <button
             ref={alertRef}
             onClick={startHidingAnimation}
-            className="group relative flex flex-wrap items-center justify-center gap-1 rounded-sm border-[1px] border-gray-300 bg-white p-2.5 transition duration-500 hover:border-gray-400 md:p-3"
+            className="group relative grid grid-cols-6 place-items-center rounded-sm border-[1px] border-gray-300 bg-white p-2.5 transition duration-500 hover:border-gray-400"
         >
             <Svg
                 {...(success ? svgs.checkCircle : svgs.checkX)}
@@ -35,7 +35,7 @@ export default function Alert({ success, children, hideAlert }: AlertProps) {
                 )}
             />
 
-            <span className="text-xs text-primary-light transition-colors duration-300 [text-wrap:balance] group-hover:text-primary">
+            <span className="col-span-5 text-xs text-primary-light transition-colors duration-300 [text-wrap:balance] group-hover:text-primary">
                 {children}
             </span>
 
