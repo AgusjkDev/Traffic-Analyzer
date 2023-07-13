@@ -5,7 +5,7 @@ import { DashboardContext } from "context";
 import { PageWrapper, HeadingText, NewStreetInput, StreetInput } from "components/Dashboard";
 
 export default function Streets() {
-    const { streets, createStreet, updateStreet, removeStreet } = useContext(DashboardContext);
+    const { streets, createStreet, updateStreetName, removeStreet } = useContext(DashboardContext);
 
     return (
         <PageWrapper
@@ -27,7 +27,7 @@ export default function Streets() {
                             <StreetInput
                                 key={street.id}
                                 street={street}
-                                updateStreet={updateStreet}
+                                updateStreetName={updateStreetName}
                                 removeStreet={removeStreet}
                             />
                         ))}

@@ -1,4 +1,3 @@
-import type { FormValues } from "data";
 import type { Street, Device } from "types/schemas";
 
 export interface DashboardState {
@@ -6,14 +5,24 @@ export interface DashboardState {
     devices: Device[] | null;
 }
 
-export type CreateStreet = (streetName: string) => Promise<void>;
-export type UpdateStreet = (streetId: string, streetName: string) => Promise<void>;
-export type RemoveStreet = (streetId: string) => Promise<void>;
-export type ActivateDevice = (values: FormValues) => Promise<boolean>;
+export type CreateStreet = (streetName: Street["name"]) => Promise<boolean>;
+
+export type UpdateStreetName = (
+    streetId: Street["id"],
+    streetName: Street["name"]
+) => Promise<boolean>;
+
+export type RemoveStreet = (streetId: Street["id"]) => Promise<void>;
+
+export type ActivateDevice = (values: {
+    deviceId: Device["id"];
+    streetName: Street["name"];
+    streetNumber: Required<Device["street_number"]>;
+}) => Promise<boolean>;
 
 export interface DashboardContext extends DashboardState {
     createStreet: CreateStreet;
-    updateStreet: UpdateStreet;
+    updateStreetName: UpdateStreetName;
     removeStreet: RemoveStreet;
     activateDevice: ActivateDevice;
 }

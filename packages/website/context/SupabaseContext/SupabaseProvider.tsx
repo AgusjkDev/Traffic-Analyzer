@@ -1,6 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, type PropsWithChildren } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { AuthSessionMissingError } from "@supabase/supabase-js";
 
 import { supabase } from "lib";
 import SupabaseContext from "./SupabaseContext";
@@ -8,11 +9,11 @@ import type {
     SupabaseState,
     SigninWithProvider,
     SignOut,
-    GetStreets,
-    InsertStreets,
+    SelectStreets,
+    InsertStreet,
     DeleteStreet,
-    UpdateStreetName,
-    GetDevices,
+    UpdateStreet,
+    SelectDevices,
     UpdateDevice,
 } from "./types";
 
@@ -38,13 +39,18 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
     const signOut: SignOut = async () => {
         const { error } = await supabase.auth.signOut();
 
-        if (error) {
-            alert(error.message); // TODO: Create custom alert
-        }
+        if (!error) return { success: true, data: undefined };
+
+        return { success: false, error };
     };
 
-    const getStreets: GetStreets = useCallback(async () => {
-        if (!session) return null;
+    const selectStreets: SelectStreets = useCallback(async () => {
+        if (!session) {
+            return {
+                success: false,
+                error: new AuthSessionMissingError(),
+            };
+        }
 
         const { data, error } = await supabase
             .from("streets")
@@ -52,56 +58,72 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
             .eq("user_id", session.user.id)
             .order("created_at", { ascending: true });
 
-        if (!data && error) {
-            alert(error.message); // TODO: Create custom alert
-            return null;
-        }
+        if (!error) return { success: true, data };
 
-        return data;
+        return { success: false, error };
     }, [session]);
 
-    const insertStreets: InsertStreets = async streetName => {
-        if (!session) return null;
+    const insertStreet: InsertStreet = async values => {
+        if (!session) {
+            return {
+                success: false,
+                error: new AuthSessionMissingError(),
+            };
+        }
 
         const { data, error } = await supabase
             .from("streets")
-            .insert({ name: streetName, user_id: session.user.id })
+            .insert({ ...values, user_id: session.user.id })
             .select("*")
             .single();
 
-        if (!data && error) {
-            alert(error.message); // TODO: Create custom alert
-            return null;
-        }
+        if (!error) return { success: true, data };
 
-        return data;
+        return { success: false, error };
     };
 
-    const updateStreetName: UpdateStreetName = async (streetId, streetName) => {
-        if (!session) return;
+    const updateStreet: UpdateStreet = async (streetId, values) => {
+        if (!session) {
+            return {
+                success: false,
+                error: new AuthSessionMissingError(),
+            };
+        }
 
         const { data, error } = await supabase
             .from("streets")
-            .update({ name: streetName })
-            .eq("id", streetId);
+            .update(values)
+            .eq("id", streetId)
+            .select("*")
+            .single();
 
-        if (!data && error) {
-            alert(error.message); // TODO: Create custom alert
-        }
+        if (!error) return { success: true, data };
+
+        return { success: false, error };
     };
 
     const deleteStreet: DeleteStreet = async streetId => {
-        if (!session) return;
-
-        const { data, error } = await supabase.from("streets").delete().eq("id", streetId);
-
-        if (!data && error) {
-            alert(error.message); // TODO: Create custom alert
+        if (!session) {
+            return {
+                success: false,
+                error: new AuthSessionMissingError(),
+            };
         }
+
+        const { error } = await supabase.from("streets").delete().eq("id", streetId);
+
+        if (!error) return { success: true, data: undefined };
+
+        return { success: false, error };
     };
 
-    const getDevices: GetDevices = useCallback(async () => {
-        if (!session) return null;
+    const selectDevices: SelectDevices = useCallback(async () => {
+        if (!session) {
+            return {
+                success: false,
+                error: new AuthSessionMissingError(),
+            };
+        }
 
         const { data, error } = await supabase
             .from("devices")
@@ -109,30 +131,29 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
             .eq("user_id", session.user.id)
             .order("created_at", { ascending: true });
 
-        if (!data && error) {
-            alert(error.message); // TODO: Create custom alert
-            return null;
-        }
+        if (!error) return { success: true, data };
 
-        return data;
+        return { success: false, error };
     }, [session]);
 
     const updateDevice: UpdateDevice = async (deviceId, update) => {
-        if (!session) return null;
+        if (!session) {
+            return {
+                success: false,
+                error: new AuthSessionMissingError(),
+            };
+        }
 
         const { data, error } = await supabase
             .from("devices")
-            .update(update)
+            .update({ ...update, user_id: session.user.id })
             .eq("id", deviceId)
             .select("*")
             .single();
 
-        if (!data && error) {
-            alert(error.message); // TODO: Create custom alert
-            return null;
-        }
+        if (!error) return { success: true, data };
 
-        return data;
+        return { success: false, error };
     };
 
     const handleAuthStateChange = useCallback(() => {
@@ -171,11 +192,11 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
                 session,
                 signinWithProvider,
                 signOut,
-                getStreets,
-                insertStreets,
-                updateStreetName,
+                selectStreets,
+                insertStreet,
+                updateStreet,
                 deleteStreet,
-                getDevices,
+                selectDevices,
                 updateDevice,
             }}
         >

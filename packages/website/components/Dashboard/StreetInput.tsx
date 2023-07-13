@@ -5,37 +5,38 @@ import { twMerge } from "tailwind-merge";
 import { Svg } from "components";
 import { svgs } from "data";
 import type { Street } from "types/schemas";
-import type { UpdateStreet, RemoveStreet } from "context/DashboardContext";
+import type { UpdateStreetName, RemoveStreet } from "context/DashboardContext";
 
 interface StreetInputProps {
     street: Street;
-    updateStreet: UpdateStreet;
+    updateStreetName: UpdateStreetName;
     removeStreet: RemoveStreet;
 }
 
-export default function StreetInput({ street, updateStreet, removeStreet }: StreetInputProps) {
+export default function StreetInput({ street, updateStreetName, removeStreet }: StreetInputProps) {
     const [newStreetName, setNewStreetName] = useState(street.name);
     const [isDisabled, setIsDisabled] = useState(true);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const handleSubmit = () => {
-        const trimmedNewStreetName = newStreetName.trim();
-        if (trimmedNewStreetName && trimmedNewStreetName !== street.name) {
-            updateStreet(street.id, trimmedNewStreetName);
+    const handleUpdate = async () => {
+        if (isDisabled) {
+            setIsDisabled(false);
+
+            return setTimeout(() => inputRef.current?.focus(), 1);
         }
+
+        const trimmedStreetName = newStreetName.trim();
+        if (street.name === trimmedStreetName) return setIsDisabled(true);
+        if (!trimmedStreetName) return; // TODO: string normalization and cleaning
+
+        const success = await updateStreetName(street.id, trimmedStreetName);
+        if (!success) setNewStreetName(street.name);
+
         setIsDisabled(true);
     };
 
-    const handleUpdate = () => {
-        if (!inputRef.current) return;
-
-        if (!isDisabled) return handleSubmit();
-
-        setIsDisabled(false);
-        setTimeout(() => inputRef.current?.focus(), 1);
-    };
-
     const handleDelete = () => {
+        // TODO: Create custom confirm popup
         if (!confirm("¿Realmente deseas eliminar esta calle?")) return;
 
         removeStreet(street.id);
@@ -45,7 +46,7 @@ export default function StreetInput({ street, updateStreet, removeStreet }: Stre
         <form
             onSubmit={e => {
                 e.preventDefault();
-                handleSubmit();
+                handleUpdate();
             }}
             className="relative h-full [&>div]:hover:opacity-100"
         >

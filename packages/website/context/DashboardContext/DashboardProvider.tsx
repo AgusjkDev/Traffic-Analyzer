@@ -1,14 +1,14 @@
 "use client";
 import { useContext, useReducer, useEffect, type PropsWithChildren } from "react";
 
-import { SupabaseContext } from "context";
+import { SupabaseContext, AlertsContext } from "context";
 import DashboardContext from "./DashboardContext";
 import DashboardReducer from "./DashboardReducer";
 import initialState from "./initialState";
 import {
     Types,
     type CreateStreet,
-    type UpdateStreet,
+    type UpdateStreetName,
     type RemoveStreet,
     type ActivateDevice,
 } from "./types";
@@ -17,13 +17,14 @@ import type { Street, Device } from "types/schemas";
 export default function DashboardProvider({ children }: PropsWithChildren) {
     const {
         session,
-        getStreets,
-        insertStreets,
-        updateStreetName,
+        selectStreets,
+        insertStreet,
+        updateStreet,
         deleteStreet,
-        getDevices,
+        selectDevices,
         updateDevice,
     } = useContext(SupabaseContext);
+    const { addAlert } = useContext(AlertsContext);
     const [state, dispatch] = useReducer(DashboardReducer, initialState);
 
     const setStreets = (streets: Street[]) => {
@@ -41,68 +42,113 @@ export default function DashboardProvider({ children }: PropsWithChildren) {
     };
 
     const createStreet: CreateStreet = async streetName => {
-        if (!streetName) return;
+        const response = await insertStreet({ name: streetName });
 
-        const street = await insertStreets(streetName);
-        if (!street) return;
+        if (response.success) {
+            const street = response.data;
 
-        setStreets(state.streets ? [...state.streets, street] : [street]);
+            addAlert({ success: true, message: "Calle registrada satisfactoriamente." });
+            setStreets(state.streets ? [...state.streets, street] : [street]);
+        } else {
+            addAlert({ success: false, message: "¡Ha ocurrido un error al registrar la calle!" });
+        }
+
+        return response.success;
     };
 
-    const updateStreet: UpdateStreet = async (streetId, streetName) => {
-        if (!state.streets || !streetName) return;
+    const updateStreetName: UpdateStreetName = async (streetId, streetName) => {
+        const response = await updateStreet(streetId, { name: streetName });
 
-        await updateStreetName(streetId, streetName);
-        setStreets(
-            state.streets.map(street =>
-                street.id === streetId ? { ...street, name: streetName } : street
-            )
-        );
+        if (response.success) {
+            const updatedStreet = response.data;
+
+            addAlert({ success: true, message: "Calle actualizada satisfactoriamente." });
+            setStreets(
+                state.streets
+                    ? state.streets.map(street => (streetId === street.id ? updatedStreet : street))
+                    : [updatedStreet]
+            );
+        } else {
+            addAlert({ success: false, message: "¡Ha ocurrido un error al actualizar la calle!" });
+        }
+
+        return response.success;
     };
 
     const removeStreet: RemoveStreet = async streetId => {
-        if (!state.streets || !streetId) return;
+        const response = await deleteStreet(streetId);
 
-        await deleteStreet(streetId);
-        setStreets(state.streets ? state.streets.filter(street => street.id !== streetId) : []);
+        const stateStreets = state.streets;
+        if (response.success && stateStreets) {
+            addAlert({ success: true, message: "Calle eliminada satisfactoriamente." });
+            setStreets(stateStreets.filter(({ id }) => streetId !== id));
+        } else {
+            addAlert({ success: false, message: "¡Ha ocurrido un error al eliminar la calle!" });
+        }
     };
 
     const activateDevice: ActivateDevice = async values => {
-        if (!session || !state.streets) return false;
-
         const { deviceId, streetName, streetNumber } = values;
+        const street = state.streets?.find(({ name }) => streetName === name);
 
-        const street = state.streets.find(({ name }) => streetName === name);
         if (!street) {
-            alert("¡Calle inválida!"); // TODO: Create custom alert
+            addAlert({
+                success: false,
+                message: "¡Ha ocurrido un error al referenciar la calle del dispositivo!",
+            });
 
             return false;
         }
 
-        const device = await updateDevice(deviceId, {
-            user_id: session.user.id,
+        const response = await updateDevice(deviceId, {
             street_id: street.id,
             street_number: streetNumber,
         });
-        if (!device) return false;
 
-        setDevices(state.devices ? [...state.devices, device] : [device]);
+        if (response.success) {
+            const device = response.data;
 
-        return true;
+            addAlert({ success: true, message: "Dispositivo activado correctamente." });
+            setDevices(state.devices ? [...state.devices, device] : [device]);
+        } else {
+            addAlert({
+                success: false,
+                message: "¡Ha ocurrido un error al activar el dispositivo!",
+            });
+        }
+
+        return response.success;
     };
 
     useEffect(() => {
         if (!session) return;
 
-        Promise.allSettled([getStreets(), getDevices()]).then(([streets, devices]) => {
-            if (streets.status === "fulfilled" && streets.value) setStreets(streets.value);
-            if (devices.status === "fulfilled" && devices.value) setDevices(devices.value);
-        });
+        Promise.allSettled([selectStreets(), selectDevices()]).then(
+            ([streetsResponse, devicesResponse]) => {
+                if (streetsResponse.status === "rejected" || !streetsResponse.value.success) {
+                    addAlert({
+                        success: false,
+                        message: "¡Ha ocurrido un error al obtener las calles!",
+                    });
+                } else {
+                    setStreets(streetsResponse.value.data);
+                }
+
+                if (devicesResponse.status === "rejected" || !devicesResponse.value.success) {
+                    return addAlert({
+                        success: false,
+                        message: "¡Ha ocurrido un error al obtener los dispositivos!",
+                    });
+                }
+
+                setDevices(devicesResponse.value.data);
+            }
+        );
     }, [session]);
 
     return (
         <DashboardContext.Provider
-            value={{ ...state, createStreet, updateStreet, removeStreet, activateDevice }}
+            value={{ ...state, createStreet, updateStreetName, removeStreet, activateDevice }}
         >
             {children}
         </DashboardContext.Provider>

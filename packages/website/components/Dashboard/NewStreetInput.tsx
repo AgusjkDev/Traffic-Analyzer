@@ -13,15 +13,18 @@ interface NewStreetInputProps {
 export default function NewStreetInput({ createStreet }: NewStreetInputProps) {
     const [newStreetName, setNewStreetName] = useState("");
 
+    const handleStreetCreation = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const trimmedStreetName = newStreetName.trim();
+        if (!trimmedStreetName) return; // TODO: string normalization and cleaning
+
+        const success = await createStreet(trimmedStreetName);
+        if (success) setNewStreetName("");
+    };
+
     return (
-        <form
-            onSubmit={e => {
-                e.preventDefault();
-                createStreet(newStreetName.trim());
-                setNewStreetName("");
-            }}
-            className="relative"
-        >
+        <form onSubmit={handleStreetCreation} className="relative">
             <input
                 required
                 type="text"

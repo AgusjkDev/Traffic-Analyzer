@@ -23,8 +23,13 @@ export default function Activate() {
         );
     }
 
-    const handleSubmit = (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
-        activateDevice(values);
+    const handleSubmit = async (
+        values: FormValues,
+        { resetForm, setSubmitting }: FormikHelpers<FormValues>
+    ) => {
+        const success = await activateDevice(values);
+        if (success) resetForm();
+
         setSubmitting(false);
     };
 

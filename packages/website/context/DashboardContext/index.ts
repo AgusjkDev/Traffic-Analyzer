@@ -1,1 +1,1 @@
-export type { CreateStreet, UpdateStreet, RemoveStreet } from "./types";
+export type { CreateStreet, UpdateStreetName, RemoveStreet } from "./types";
