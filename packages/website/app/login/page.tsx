@@ -5,7 +5,7 @@ import { SigninWithProviderButtons } from "components";
 
 export default function Login() {
     return (
-        <section className="mx-auto flex min-h-[calc(100vh-134.56px)] flex-col items-center justify-center gap-y-8 px-4 sm:px-0 md:min-h-[calc(100vh-92.56px)] md:w-[90%] md:flex-row xl:w-3/4 2xl:w-[70%]">
+        <section className="mx-auto flex min-h-[calc(100vh-127px)] flex-col items-center justify-center gap-y-8 px-4 sm:px-0 md:min-h-[calc(100vh-81px)] md:w-[90%] md:flex-row xl:w-3/4 2xl:w-[70%]">
             <div className="md:flex-1">
                 <Image
                     alt="Semáforo en luz roja"
