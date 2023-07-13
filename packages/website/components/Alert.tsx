@@ -12,7 +12,11 @@ interface AlertProps {
 }
 
 export default function Alert({ success, children, hideAlert }: AlertProps) {
-    const { alertRef, startHidingAnimation } = useAlert(hideAlert, 500, 4700);
+    const { alertRef, startHidingAnimation } = useAlert({
+        hideDelay: 500,
+        timerDelay: 4700,
+        hideFunction: hideAlert,
+    });
 
     return (
         <button

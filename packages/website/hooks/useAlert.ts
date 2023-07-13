@@ -1,18 +1,20 @@
 "use client";
 import { useRef, useEffect } from "react";
 
-export default function useAlert(
-    hideFunction: () => void,
-    hidingAnimationDelay: number,
-    timerDelay: number
-) {
+interface useAlertProps {
+    hideDelay: number;
+    timerDelay: number;
+    hideFunction: () => void;
+}
+
+export default function useAlert({ hideDelay, timerDelay, hideFunction }: useAlertProps) {
     const alertRef = useRef<HTMLButtonElement>(null);
 
     const startHidingAnimation = () => {
         if (!alertRef.current) return hideFunction();
 
         alertRef.current.classList.add("opacity-0");
-        setTimeout(hideFunction, hidingAnimationDelay);
+        setTimeout(hideFunction, hideDelay);
     };
 
     useEffect(() => {

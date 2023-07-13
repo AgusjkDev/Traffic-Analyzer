@@ -19,7 +19,7 @@ export default function FormikSearchSelectField(props: FormikSearchSelectFieldPr
         handleInputBlur,
         handleOptionClick,
     } = useSearchSelect(props);
-    const matchings = useSearch(props.options, props.value);
+    const matchings = useSearch({ terms: props.options, term: props.value });
 
     const elementProps = Object.entries(props).reduce<Partial<FieldInputProps<string>>>(
         (acc, [key, value]) =>
