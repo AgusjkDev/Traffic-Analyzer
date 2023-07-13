@@ -5,6 +5,7 @@ import { AuthSessionMissingError } from "@supabase/supabase-js";
 
 import { supabase } from "lib";
 import SupabaseContext from "./SupabaseContext";
+import { env } from "data";
 import type {
     SupabaseState,
     SigninWithProvider,
@@ -33,6 +34,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
 
         if (!error) return { success: true, data: undefined };
 
+        if (env.IS_DEVELOPMENT) console.error(error);
+
         return { success: false, error };
     };
 
@@ -40,6 +43,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
         const { error } = await supabase.auth.signOut();
 
         if (!error) return { success: true, data: undefined };
+
+        if (env.IS_DEVELOPMENT) console.error(error);
 
         return { success: false, error };
     };
@@ -60,6 +65,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
 
         if (!error) return { success: true, data };
 
+        if (env.IS_DEVELOPMENT) console.error(error);
+
         return { success: false, error };
     }, [session]);
 
@@ -78,6 +85,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
             .single();
 
         if (!error) return { success: true, data };
+
+        if (env.IS_DEVELOPMENT) console.error(error);
 
         return { success: false, error };
     };
@@ -99,6 +108,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
 
         if (!error) return { success: true, data };
 
+        if (env.IS_DEVELOPMENT) console.error(error);
+
         return { success: false, error };
     };
 
@@ -113,6 +124,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
         const { error } = await supabase.from("streets").delete().eq("id", streetId);
 
         if (!error) return { success: true, data: undefined };
+
+        if (env.IS_DEVELOPMENT) console.error(error);
 
         return { success: false, error };
     };
@@ -133,6 +146,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
 
         if (!error) return { success: true, data };
 
+        if (env.IS_DEVELOPMENT) console.error(error);
+
         return { success: false, error };
     }, [session]);
 
@@ -152,6 +167,8 @@ export default function SupabaseProvider({ children }: PropsWithChildren) {
             .single();
 
         if (!error) return { success: true, data };
+
+        if (env.IS_DEVELOPMENT) console.error(error);
 
         return { success: false, error };
     };
