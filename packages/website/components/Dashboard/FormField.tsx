@@ -18,14 +18,7 @@ export default function FormField({ field, errorMessage }: FormFieldProps) {
                 {label}
             </label>
 
-            <Field
-                {...props}
-                {...(is && { as: is })}
-                {...(!is && {
-                    className:
-                        "w-full rounded-md border-[1px] border-gray-300 bg-white p-2.5 text-sm transition-colors duration-300 placeholder:text-primary-light focus:border-gray-400 focus:outline-none",
-                })}
-            />
+            <Field {...props} {...(is && { as: is })} />
 
             {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
         </div>
