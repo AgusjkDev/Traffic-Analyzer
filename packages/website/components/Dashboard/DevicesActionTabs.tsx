@@ -14,13 +14,13 @@ export default function DevicesActionTabs() {
 
     return (
         <div className={"relative flex w-full flex-col"}>
-            <div className="flex justify-around border-b-2 border-b-gray-200">
+            <div className="flex justify-around">
                 {devicesActionTabs.map(({ href, title, children }, i) => (
                     <Link
                         key={href}
                         href={href}
                         title={title}
-                        className="w-full py-3 text-center text-sm"
+                        className="w-full border-b-2 border-b-gray-200 py-3 text-center text-sm transition-colors duration-300 hover:border-b-secondary"
                         {...(i === 0 && { ref: tabRef })}
                     >
                         {children}
