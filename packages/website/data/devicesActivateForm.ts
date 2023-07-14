@@ -42,7 +42,7 @@ const devicesActivateForm: DevicesActivateForm = {
                 ),
             streetName: Yup.string()
                 .required("¡Éste campo es obligatorio!")
-                .test("existence", "¡Esa calle no existe o no fue creada!", value =>
+                .test("existence", "¡Esa calle no existe o no fue registrada!", value =>
                     streetNameRegex.test(value)
                 ),
             streetNumber: Yup.number()
