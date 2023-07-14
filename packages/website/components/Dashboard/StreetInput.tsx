@@ -1,6 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
 import { Svg } from "components";
+import StyledInput from "./StyledInput";
 import { useStreetInput } from "hooks";
 import { svgs } from "data";
 import { reduceSpaces } from "helpers";
@@ -35,7 +36,7 @@ export default function StreetInput({ street }: StreetInputProps) {
             }}
             className={twMerge("relative", !isNew && "group/container")}
         >
-            <input
+            <StyledInput
                 ref={inputRef}
                 disabled={!isNew && isDisabled}
                 placeholder={street?.name ?? "Nueva calle"}
@@ -44,7 +45,6 @@ export default function StreetInput({ street }: StreetInputProps) {
                 onBlur={handleBlur}
                 type="text"
                 className={twMerge(
-                    "w-full rounded-md border-[1px] border-gray-200 bg-white p-2.5 text-sm transition-colors placeholder:text-primary-light focus:border-gray-300 focus:outline-none",
                     !isNew && "font-light disabled:text-primary-light",
                     !isNew && isDisabled && "group-hover/container:pr-14",
                     ((isNew && thereIsStreetName) || (!isNew && !isDisabled)) && "pr-8"

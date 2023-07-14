@@ -1,5 +1,6 @@
 import type { FieldInputProps } from "formik";
 
+import StyledInput from "./StyledInput";
 import { useSearchSelect, useSearch } from "hooks";
 
 interface FormikSearchSelectFieldProps extends FieldInputProps<string> {
@@ -31,14 +32,13 @@ export default function FormikSearchSelectField(props: FormikSearchSelectFieldPr
         <div className="relative w-full">
             <select id={props.focusId} className="h-0 w-0 opacity-0" onFocus={handleSelectFocus} />
 
-            <input
+            <StyledInput
                 {...elementProps}
                 ref={inputRef}
                 onClick={handleInputClick}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 type="text"
-                className="w-full rounded-md border-[1px] border-gray-300 bg-white p-2.5 text-sm transition-colors duration-300 placeholder:text-primary-light focus:border-gray-400 focus:outline-none"
             />
 
             {isFocused && matchings.length > 0 && (

@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-import { FormikSearchSelectField } from "components/Dashboard";
+import { StyledInput, FormikSearchSelectField } from "components/Dashboard";
 import { regex } from "data";
 
 export interface FormValues {
@@ -55,6 +55,7 @@ const devicesActivateForm: DevicesActivateForm = {
         {
             for: "deviceId",
             label: "Identificador del Dispositivo",
+            as: StyledInput,
             props: {
                 id: "deviceId",
                 name: "deviceId",
@@ -76,6 +77,7 @@ const devicesActivateForm: DevicesActivateForm = {
         {
             for: "streetNumber",
             label: "Altura de la calle",
+            as: StyledInput,
             props: {
                 id: "streetNumber",
                 name: "streetNumber",
